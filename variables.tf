@@ -21,6 +21,16 @@ variable "release-chart" {
   default = "wordpress"
 }
 
+variable "run-as-user" {
+  type    = string
+  default = "1001"
+}
+
+variable "run-as-group" {
+  type    = string
+  default = "1001"
+}
+
 variable "cdn-bucket-name" {
   type = string
 }
