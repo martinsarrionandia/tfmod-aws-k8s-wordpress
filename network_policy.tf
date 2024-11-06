@@ -7,6 +7,7 @@ resource "kubernetes_manifest" "wordpress_network_policy" {
   field_manager {
     force_conflicts = true
   }
+  depends_on = [ helm_release.wordpress ]
 }
 
 resource "kubernetes_manifest" "mariadb_network_policy" {
@@ -18,6 +19,7 @@ resource "kubernetes_manifest" "mariadb_network_policy" {
   field_manager {
     force_conflicts = true
   }
+  depends_on = [ helm_release.wordpress ]
 }
 
 resource "kubernetes_manifest" "sync_uploads_network_policy" {
@@ -30,4 +32,5 @@ resource "kubernetes_manifest" "sync_uploads_network_policy" {
   field_manager {
     force_conflicts = true
   }
+  depends_on = [ helm_release.wordpress ]
 }

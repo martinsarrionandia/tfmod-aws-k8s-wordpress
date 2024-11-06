@@ -1,7 +1,7 @@
 data "aws_prefix_list" "s3_prefix_list" {
   filter {
     name   = "prefix-list-name"
-    values = ["com.amazonaws.eu-west-2.s3"]
+    values = ["com.amazonaws.${local.s3-region}.s3"]
   }
 }
 
