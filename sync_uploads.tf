@@ -5,6 +5,8 @@ resource "kubernetes_manifest" "sync_uploads" {
       namespace             = kubernetes_namespace.this.metadata.0.name
       run-as-user           = var.run-as-user
       run-as-group          = var.run-as-group
+      c1                    = local.c1
+      c2                    = local.c2
       uploads-claim         = "${kubernetes_persistent_volume_claim.wordpress_uploads.metadata.0.name}"
       s3-region             = local.s3-region
       s3-uploads-path       = local.s3-cdn-wordpresss-uploads-path
