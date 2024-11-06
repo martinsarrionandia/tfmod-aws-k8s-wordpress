@@ -17,6 +17,10 @@ spec:
       labels:
         app: sync-uploads
     spec:
+      securityContext:
+        runAsGroup: "${run-as-user}"
+        runAsNonRoot: true
+        runAsUser: "${run-as-group}"
       containers:
         - name: mc
           image: minio/mc:latest
@@ -37,3 +41,9 @@ spec:
         - name: uploads
           persistentVolumeClaim: 
             claimName : "${uploads-claim}"
+
+
+
+                        runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
