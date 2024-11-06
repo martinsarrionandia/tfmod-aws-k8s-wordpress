@@ -22,7 +22,7 @@ spec:
         #runAsNonRoot: false
         #runAsUser: "${run-as-group}"
         seLinuxOptions:
-          level: "s0:${c1},${c2}"
+          level: "s0:c${c1},c${c2}"
       containers:
         - name: mc
           image: minio/mc:latest
