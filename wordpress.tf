@@ -73,6 +73,11 @@ resource "helm_release" "wordpress" {
   }
 
   set {
+    name  = "containerSecurityContext.seLinuxOptions"
+    value = yamlencode({level: "s0:${local.c1},${local.c2}"})
+  }
+
+  set {
     name  = "wordpressUsername"
     value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["wordpressUsername"]
   }
