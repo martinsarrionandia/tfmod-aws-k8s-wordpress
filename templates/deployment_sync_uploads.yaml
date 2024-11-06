@@ -41,9 +41,3 @@ spec:
         - name: uploads
           persistentVolumeClaim: 
             claimName : "${uploads-claim}"
-
-
-
-                        runAsGroup: 1001
-            runAsNonRoot: true
-            runAsUser: 1001
