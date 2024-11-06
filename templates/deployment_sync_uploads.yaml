@@ -5,6 +5,8 @@ metadata:
   namespace: "${namespace}"
   labels:
     app: sync-uploads
+    app.kubernetes.io/instance: "${release-name}"
+    app.kubernetes.io/name: sync-uploads
 spec:
   replicas: 1
   selector:
