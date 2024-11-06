@@ -19,7 +19,7 @@ spec:
     spec:
       securityContext:
         runAsGroup: "${run-as-user}"
-        runAsNonRoot: true
+        runAsNonRoot: false
         runAsUser: "${run-as-group}"
       containers:
         - name: mc
