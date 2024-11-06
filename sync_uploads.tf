@@ -4,7 +4,7 @@ resource "kubernetes_manifest" "sync_uploads" {
       release-name          = var.release-name
       namespace             = kubernetes_namespace.this.metadata.0.name
       run-as-user           = jsondecode(resource.helm_release.wordpress.manifest)["containerSecurityContext.runAsUser"]
-      run-as-runasgroup     = jsondecode(resource.helm_release.wordpress.manifest)["containerSecurityContext.runAsGroup"]
+      run-as-group          = jsondecode(resource.helm_release.wordpress.manifest)["containerSecurityContext.runAsGroup"]
       uploads-claim         = "${kubernetes_persistent_volume_claim.wordpress_uploads.metadata.0.name}"
       s3-region             = local.s3-region
       s3-uploads-path       = local.s3-cdn-wordpresss-uploads-path
