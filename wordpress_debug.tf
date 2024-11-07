@@ -74,6 +74,7 @@ data "helm_template" "wordpress" {
 
   set {
     name  = "containerSecurityContext.seLinuxOptions"
+    type = map
     value = local.selinux-options
   }
 
