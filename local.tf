@@ -14,6 +14,6 @@ locals {
   wordpress-helm-values = <<EOF
 securityContext:
   seLinuxOptions:
-    level: ${local.selinux-options}
+    level: ${local.selinux-level}
 EOF
 }
