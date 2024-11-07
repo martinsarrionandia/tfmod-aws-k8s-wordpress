@@ -75,7 +75,7 @@ resource "helm_release" "wordpress" {
   set {
     name  = "containerSecurityContext.seLinuxOptions"
     type = map
-    value = local.selinux-options
+    value = yamlencode(local.selinux-options)
   }
 
   set {
