@@ -77,8 +77,8 @@ data "helm_template" "wordpress" {
   #  value = yamlencode(local.selinux-options)
   #}
 
-  values = local.wordpress-helm-values
-  
+  values = [local.wordpress-helm-values]
+
   set {
     name  = "wordpressUsername"
     value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["wordpressUsername"]

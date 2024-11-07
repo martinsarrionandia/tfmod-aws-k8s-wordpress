@@ -77,7 +77,7 @@ resource "helm_release" "wordpress" {
   #  value = yamlencode(local.selinux-options)
   #}
 
-  values = local.wordpress-helm-values
+  values = [local.wordpress-helm-values]
 
   set {
     name  = "wordpressUsername"
