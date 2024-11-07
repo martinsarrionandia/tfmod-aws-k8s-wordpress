@@ -74,7 +74,7 @@ data "helm_template" "wordpress" {
 
   set {
     name  = "containerSecurityContext.seLinuxOptions"
-    value = "farts: true"
+    value = local.selinux-options
   }
 
   set {
