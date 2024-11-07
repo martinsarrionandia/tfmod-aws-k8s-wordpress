@@ -74,7 +74,7 @@ data "helm_template" "wordpress" {
 
   set {
     name  = "containerSecurityContext.seLinuxOptions"
-    value = yamlencode("level : s0:${local.c1},${local.c2}")
+    value = "farts: true"
   }
 
   set {
