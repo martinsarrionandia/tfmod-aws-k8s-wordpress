@@ -72,10 +72,10 @@ resource "helm_release" "wordpress" {
     value = "true"
   }
 
-  set {
-    name  = "containerSecurityContext.seLinuxOptions"
-    value = yamlencode("level : s0:${local.c1},${local.c2}")
-  }
+  #set {
+  #  name  = "containerSecurityContext.seLinuxOptions"
+  #  value = yamlencode("level : s0:${local.c1},${local.c2}")
+  #}
 
   set {
     name  = "wordpressUsername"
