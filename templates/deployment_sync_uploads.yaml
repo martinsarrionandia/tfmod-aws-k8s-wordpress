@@ -30,7 +30,7 @@ spec:
           args:
           - |
             mc alias set s3 https://s3.${s3-region}.amazonaws.com:443 "${aws_access_key_id}" "${aws_secret_access_key}"
-            mc mirror --quiet --overwrite --watch /uploads/ s3"${s3-uploads-path}"
+            mc mirror --quiet --overwrite --watch /uploads/ s3/"${s3-uploads-path}"
           env:
           - name: AWS_ACCESS_KEY_ID
             value: "${aws_access_key_id}"
