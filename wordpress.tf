@@ -74,7 +74,7 @@ resource "helm_release" "wordpress" {
 
   set {
     name  = "containerSecurityContext.seLinuxOptions"
-    value = "{level : s0:${local.c1},${local.c2}}"
+    value = yamlencode("level : \"s0:${local.c1},${local.c2}\"")
   }
 
   set {
@@ -97,3 +97,9 @@ resource "helm_release" "wordpress" {
     value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["mariadb.auth.password"]
   }
 }
+
+
+yamlencode("{level : s0:c123,c456}" )
+
+
+yamlencode("level = true")
