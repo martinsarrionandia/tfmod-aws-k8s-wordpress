@@ -12,8 +12,9 @@ locals {
     level = local.selinux-level
   }
   wordpress-helm-values = <<EOF
-securityContext:
+containerSecurityContext:
   seLinuxOptions:
     level: ${local.selinux-level}
+
 EOF
 }
