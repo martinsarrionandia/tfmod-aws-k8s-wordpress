@@ -1,4 +1,4 @@
-resource "helm_release" "wordpress" {
+data "helm_template" "wordpress" {
   namespace  = kubernetes_namespace.this.metadata.0.name
   name       = var.release-name
   repository = var.release-repo
