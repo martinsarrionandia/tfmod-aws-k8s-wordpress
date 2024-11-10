@@ -17,6 +17,8 @@ locals {
 containerSecurityContext:
   seLinuxOptions:
     level: ${local.selinux-level}
-
+resources:
+  requests:
+    cpu: 50m
 EOF
 }
