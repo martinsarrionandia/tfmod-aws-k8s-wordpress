@@ -7,7 +7,7 @@ resource "kubernetes_manifest" "this" {
         "cert-manager.io/cluster-issuer"                   = var.cluster-issuer,
         "external-dns.alpha.kubernetes.io/hostname"        = local.fqdn,
         "external-dns.alpha.kubernetes.io/target"          = var.public-ip,
-        "traefik.ingress.kubernetes.io/router.middlewares" = "${kubernetes_namespace.this.metadata.0.name}-${local.middleware-cdn-rewrite-name}"
+        "traefik.ingress.kubernetes.io/router.middlewares" = "${kubernetes_namespace.this.metadata.0.name}-${local.middleware-cdn-rewrite-name}@kubernetescrd"
       }
       labels = {
         app = helm_release.wordpress.metadata.0.chart
