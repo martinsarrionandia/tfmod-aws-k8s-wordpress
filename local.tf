@@ -19,6 +19,12 @@ containerSecurityContext:
     level: ${local.selinux-level}
 resources:
   requests:
-    cpu: 50m
+    cpu: 25m
+mariadb:
+  primary:
+    resources:
+      requests:
+        cpu: 25m
+
 EOF
 }
