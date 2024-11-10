@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "middleware-cdn-rewrite" {
-  manifest = local.middleware-cdn-rewrite-manifest
+  manifest = yamldecode(local.middleware-cdn-rewrite-manifest)
 }
 
 locals {
