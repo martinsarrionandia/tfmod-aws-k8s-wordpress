@@ -17,8 +17,8 @@ spec:
     rewrite-body:
       lastModified: true
       rewrites:
-        - regex: "${local.fqdn}/wpcontent/uploads"
-          replacement: "${local.s3-cdn-wordpresss-uploads-path}/wpcontent/uploads"
+        - regex: "http://${local.fqdn}/${var.wordpress-uploads-dir}"
+          replacement: "https://${local.s3-cdn-wordpresss-uploads-path}"
       logLevel: 0
       monitoring:
         methods:

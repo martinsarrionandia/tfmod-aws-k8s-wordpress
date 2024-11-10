@@ -57,7 +57,7 @@ resource "helm_release" "wordpress" {
     value = yamlencode([
       {
         "name" : "uploads",
-        "mountPath" : "/bitnami/wordpress/wp-content/uploads"
+        "mountPath" : "/bitnami/wordpress/${var.wordpress-uploads-dir}"
       }
     ])
   }

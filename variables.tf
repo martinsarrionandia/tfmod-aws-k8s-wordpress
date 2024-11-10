@@ -72,3 +72,8 @@ variable "initial-setup" {
   default = "false"
 }
 
+variable "wordpress-uploads-dir" {
+  type    = string
+  default = "wp-content/uploads"
+}
+
