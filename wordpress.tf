@@ -20,7 +20,7 @@ resource "helm_release" "wordpress" {
   }
 
   set {
-    name = "mariadb.networkPolicy.enabled"
+    name  = "mariadb.networkPolicy.enabled"
     value = "false"
   }
 
@@ -71,11 +71,6 @@ resource "helm_release" "wordpress" {
     name  = "containerSecurityContext.enabled"
     value = "true"
   }
-
-  #set {
-  #  name  = "containerSecurityContext.seLinuxOptions"
-  #  value = yamlencode(local.selinux-options)
-  #}
 
   values = [local.wordpress-helm-values]
 
