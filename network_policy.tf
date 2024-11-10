@@ -4,10 +4,6 @@ resource "kubernetes_manifest" "wordpress_network_policy" {
       release-name = var.release-name,
       namespace    = kubernetes_namespace.this.metadata.0.name
   }))
-  field_manager {
-    force_conflicts = true
-  }
-  depends_on = [helm_release.wordpress]
 }
 
 resource "kubernetes_manifest" "mariadb_network_policy" {
@@ -16,10 +12,6 @@ resource "kubernetes_manifest" "mariadb_network_policy" {
       release-name = var.release-name,
       namespace    = kubernetes_namespace.this.metadata.0.name
   }))
-  field_manager {
-    force_conflicts = true
-  }
-  depends_on = [helm_release.wordpress]
 }
 
 resource "kubernetes_manifest" "sync_uploads_network_policy" {
@@ -29,8 +21,4 @@ resource "kubernetes_manifest" "sync_uploads_network_policy" {
       namespace      = kubernetes_namespace.this.metadata.0.name
       s3-prefix-list = data.aws_prefix_list.s3_prefix_list.cidr_blocks
   }))
-  field_manager {
-    force_conflicts = true
-  }
-  depends_on = [helm_release.wordpress]
 }
