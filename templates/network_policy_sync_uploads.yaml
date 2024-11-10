@@ -36,7 +36,10 @@ spec:
             cidr: ${i}
 %{ endfor ~}
 
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: "${release-name}"
+      app.kubernetes.io/name: sync-uploads
   policyTypes:
     - Ingress
     - Egress

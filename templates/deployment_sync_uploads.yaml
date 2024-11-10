@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: sync-uploads
+        app.kubernetes.io/instance: "${release-name}"
+        app.kubernetes.io/name: sync-uploads
     spec:
       securityContext:
         #runAsGroup: "${run-as-user}"
