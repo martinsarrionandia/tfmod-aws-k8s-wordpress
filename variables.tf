@@ -78,6 +78,6 @@ variable "wordpress-uploads-dir" {
 }
 
 variable "additional-middlewares" {
-  type = list
+  type    = list(any)
   default = []
 }
