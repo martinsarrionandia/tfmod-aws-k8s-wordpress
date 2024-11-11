@@ -16,7 +16,7 @@ locals {
   middleware_rewrite_cdn = "${kubernetes_namespace.this.metadata.0.name}-${local.middleware-cdn-rewrite-name}@kubernetescrd"
   #middlewares = "${local.middleware_rewrite_cdn} ${join(", ",  var.additional-middlewares)}"
 
-  middlewares = join(", ",  concat([var.additional-middlewares], local.middleware_rewrite_cdn))
+  middlewares = join(", ",  concat([local.middleware_rewrite_cdn], var.additional-middlewares))
 
   wordpress-helm-values = <<EOF
 containerSecurityContext:
