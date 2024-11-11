@@ -77,3 +77,7 @@ variable "wordpress-uploads-dir" {
   default = "wp-content/uploads"
 }
 
+variable "additional-middlewares" {
+  type = list
+  default = []
+}

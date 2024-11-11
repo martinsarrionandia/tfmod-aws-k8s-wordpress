@@ -13,6 +13,9 @@ locals {
     level = local.selinux-level
   }
 
+  middleware_rewrite_cdn = "${kubernetes_namespace.this.metadata.0.name}-${local.middleware-cdn-rewrite-name}@kubernetescrd"
+  middlewares = [local.middleware_rewrite_cdn, [for m in var.additional-middlewares: m.value]]
+
   wordpress-helm-values = <<EOF
 containerSecurityContext:
   seLinuxOptions:
