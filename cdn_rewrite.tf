@@ -4,7 +4,6 @@ resource "kubernetes_manifest" "middleware-cdn-rewrite" {
 
 locals {
 
-  middleware-cdn-rewrite-name = "${var.release-name}-cdn-rewrite"
 
   middleware-cdn-rewrite-manifest = <<EOF
 apiVersion: traefik.io/v1alpha1
