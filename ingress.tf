@@ -23,7 +23,7 @@ spec:
     match: Host(`"${local.fqdn}"`) && PathPrefix(`/`)
     priority: 10
     #middlewares:
-    #- name: "${middleware-cdn-rewrite-name}"
+    #- name: "${local.middleware-cdn-rewrite-name}"
     #  namespace: "${kubernetes_namespace.this.metadata.0.name}"
     services:
     - kind: Service
