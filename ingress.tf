@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "this" {
-  manifest = local.ingress-route-manifest
+  manifest = yamldecode (local.ingress-route-manifest)
 }
 
 locals {
