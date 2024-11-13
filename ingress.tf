@@ -1,50 +1,48 @@
 resource "kubernetes_manifest" "this" {
-  manifest = {
-    apiVersion = "networking.k8s.io/v1"
-    kind       = "Ingress"
-    metadata = {
-      annotations = {
-        "cert-manager.io/cluster-issuer"                   = var.cluster-issuer,
-        "external-dns.alpha.kubernetes.io/hostname"        = local.fqdn,
-        "external-dns.alpha.kubernetes.io/target"          = var.public-ip,
-        "traefik.ingress.kubernetes.io/router.middlewares" = local.middlewares
-      }
-      labels = {
-        app = helm_release.wordpress.metadata.0.chart
-      }
-      name      = helm_release.wordpress.metadata.0.name
-      namespace = kubernetes_namespace.this.metadata.0.name
-    }
-    spec = {
-      rules = [
-        {
-          host = local.fqdn
-          http = {
-            paths = [
-              {
-                backend = {
-                  service = {
-                    name = "${helm_release.wordpress.metadata.0.name}-${helm_release.wordpress.metadata.0.chart}"
-                    port = {
-                      number = 80
-                    }
-                  }
-                }
-                path     = "/"
-                pathType = "Prefix"
-              },
-            ]
-          }
-        },
-      ]
-      tls = [
-        {
-          hosts = [
-            local.fqdn,
-          ]
-          secretName = var.cluster-issuer
-        },
-      ]
-    }
-  }
+  manifest = local.ingress-route-manifest
+}
+
+locals {
+
+ingress-route-manifest = <<EOF
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: "${helm_release.wordpress.metadata.0.name}"
+  namespace: "${kubernetes_namespace.this.metadata.0.name}"
+  annotations:
+    cert-manager.io/cluster-issuer: "${var.cluster-issuer}"
+    external-dns.alpha.kubernetes.io/hostname: "${local.fqdn}"
+    external-dns.alpha.kubernetes.io/target: "${var.public-ip}"
+spec:
+  entryPoints:
+    - http
+  #  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`"${local.fqdn}"`) && PathPrefix(`/`)
+    priority: 10
+    #middlewares:
+    #- name: "${middleware-cdn-rewrite-name}"
+    #  namespace: "${kubernetes_namespace.this.metadata.0.name}"
+    services:
+    - kind: Service
+      name: "${helm_release.wordpress.metadata.0.name}-${helm_release.wordpress.metadata.0.chart}"
+      namespace: "${kubernetes_namespace.this.metadata.0.name}"
+      passHostHeader: true
+      port: 80 
+      responseForwarding:
+        flushInterval: 1ms
+      scheme: https
+      serversTransport: transport
+  tls:
+    secretName: "${var.cluster-issuer}"
+    #options:
+    #  name: 
+    #  namespace: default
+    #certResolver: "${var.cluster-issuer}"
+    domains:
+    - main: "${local.fqdn}"
+
+EOF
 }
