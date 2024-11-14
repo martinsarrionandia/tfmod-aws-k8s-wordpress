@@ -20,7 +20,7 @@ spec:
   #  - websecure
   routes:
   - kind: Rule
-    match: Host(`"${local.fqdn}"`) && PathPrefix(`/`)
+    match: Host(`${local.fqdn}`) && PathPrefix(`/`)
     priority: 10
     #middlewares:
     #- name: "${local.middleware-cdn-rewrite-name}"
