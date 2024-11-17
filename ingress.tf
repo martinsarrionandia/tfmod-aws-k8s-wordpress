@@ -47,7 +47,7 @@ spec:
 EOF
 
 ingress-route-manifest2 = <<EOF
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: ${var.release-name}
@@ -62,7 +62,7 @@ spec:
   #  - websecure
   routes:
   - kind: Rule
-    match: Host(`photobooth.wales`) && PathPrefix(`/`)
+    match: Host(`${local.fqdn}`) && PathPrefix(`/`)
     priority: 10
     #middlewares:
     #- name: "${local.middleware-cdn-rewrite-name}"
