@@ -51,7 +51,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: ${var.release-name}
-  namespace: ${release-chart}
+  namespace: "${kubernetes_namespace.this.metadata.0.name}"
   annotations:
     cert-manager.io/cluster-issuer: lets-encrypt
     external-dns.alpha.kubernetes.io/hostname: photobooth.wales
