@@ -5,7 +5,7 @@ resource "kubernetes_manifest" "this" {
 locals {
 
 ingress-route-manifest = <<EOF
-apiVersion: traefik.io/v1alpha1
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: "${helm_release.wordpress.metadata.0.name}"
