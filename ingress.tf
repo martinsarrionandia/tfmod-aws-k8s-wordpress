@@ -5,11 +5,11 @@ resource "kubernetes_manifest" "this" {
 locals {
 
 ingress-route-manifest = <<EOF
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: wordpress
-  namespace: kube-system
+  name: ${var.release-name}
+  namespace: ${release-chart}
   annotations:
     cert-manager.io/cluster-issuer: "${var.cluster-issuer}"
     external-dns.alpha.kubernetes.io/hostname: "${local.fqdn}"
@@ -50,8 +50,8 @@ ingress-route-manifest2 = <<EOF
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: wordpress
-  namespace: mojobooth
+  name: ${var.release-name}
+  namespace: ${release-chart}
   annotations:
     cert-manager.io/cluster-issuer: lets-encrypt
     external-dns.alpha.kubernetes.io/hostname: photobooth.wales
