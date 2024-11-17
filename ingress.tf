@@ -84,7 +84,7 @@ spec:
     #  namespace: default
     #certResolver: "${var.cluster-issuer}"
     domains:
-    - main: mojobooth.wales
+    - main: ${local.fqdn}
 
 EOF
 }
