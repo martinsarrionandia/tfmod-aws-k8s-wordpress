@@ -9,7 +9,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: ${var.release-name}
-  namespace: ${release-chart}
+  namespace: ${var.release-chart}
   annotations:
     cert-manager.io/cluster-issuer: "${var.cluster-issuer}"
     external-dns.alpha.kubernetes.io/hostname: "${local.fqdn}"
