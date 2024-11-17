@@ -53,9 +53,9 @@ metadata:
   name: ${var.release-name}
   namespace: "${kubernetes_namespace.this.metadata.0.name}"
   annotations:
-    cert-manager.io/cluster-issuer: lets-encrypt
-    external-dns.alpha.kubernetes.io/hostname: photobooth.wales
-    external-dns.alpha.kubernetes.io/target: 35.179.13.236
+    cert-manager.io/cluster-issuer: "${var.cluster-issuer}"
+    external-dns.alpha.kubernetes.io/hostname: "${local.fqdn}"
+    external-dns.alpha.kubernetes.io/target: "${var.public-ip}"
 spec:
   entryPoints:
     - http
