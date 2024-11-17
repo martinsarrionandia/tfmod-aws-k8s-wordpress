@@ -1,4 +1,4 @@
-resource "kubernetes_manifest" "this" {
+resource "kubernetes_manifest" "this_ingress" {
   manifest = yamldecode (local.ingress-route-manifest2)
 }
 
@@ -69,8 +69,8 @@ spec:
     #  namespace: "${kubernetes_namespace.this.metadata.0.name}"
     services:
     - kind: Service
-      name: mojobooth-wordpress
-      namespace: mojobooth
+      name: ${var.release-name}-${var.release-chart}
+      namespace: ${kubernetes_namespace.this.metadata.0.name}
       passHostHeader: true
       port: 80
       responseForwarding:
