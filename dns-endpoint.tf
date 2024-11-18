@@ -19,5 +19,5 @@ spec:
     targets:
     - ${var.public-ip}
 
-  EOF
+EOF
 }
