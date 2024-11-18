@@ -15,8 +15,7 @@ spec:
   - dnsName: ${local.fqdn}
     recordTTL: 300
     recordType: A
-    targets:
-      - ${var.public-ip}
+    targets: ['${var.public-ip}']
 
 EOF
 }
