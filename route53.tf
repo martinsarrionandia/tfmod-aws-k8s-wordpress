@@ -1,4 +1,12 @@
-data "aws_route53_zone" "domain" {
+data "aws_route53_zone" "this" {
   name         = var.domain
   private_zone = false
+}
+
+resource "aws_route53_record" "this" {
+  zone_id = data.aws_route53_zone.this.id
+  name    = local.fqdn
+  type    = "A"
+  ttl     = "300"
+  records = [var.public-ip]
 }
