@@ -36,11 +36,11 @@ spec:
       #scheme: https
       #serversTransport: transport
   tls:
-    secretName: ${local.fqdn}-secret
+    secretName: "${local.fqdn}-secret"
     #options:
     #  name:
     #  namespace: default
-#    certResolver: "${var.cluster-issuer}"
+    certResolver: "${var.cluster-issuer}"
     domains:
     - main: ${local.fqdn}
 

@@ -12,7 +12,7 @@ metadata:
   name: ${local.fqdn}-cert
   namespace: ${kubernetes_namespace.this.metadata.0.name}
 spec:
-  secretName: ${local.fqdn}-secret
+  secretName: "${local.fqdn}-secret"
   issuerRef:
     name: ${var.cluster-issuer}
     kind: ClusterIssuer

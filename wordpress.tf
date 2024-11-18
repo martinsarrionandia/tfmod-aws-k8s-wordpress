@@ -29,6 +29,12 @@ resource "helm_release" "wordpress" {
     value = yamlencode(local.fqdn)
     type  = "string"
   }
+  
+  set {
+    name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/target"
+    value = yamlencode(var.public-ip)
+    type  = "string"
+  }
 
   set {
     name  = "persistence.existingClaim"
