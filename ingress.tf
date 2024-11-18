@@ -20,9 +20,9 @@ spec:
   - kind: Rule
     match: Host(`${local.fqdn}`) && PathPrefix(`/`)
     priority: 10
-    #middlewares:
-    #- name: "${local.middleware-cdn-rewrite-name}"
-    #  namespace: "${kubernetes_namespace.this.metadata.0.name}"
+    middlewares:
+    - name: "${local.middleware-cdn-rewrite-name}"
+      namespace: "${kubernetes_namespace.this.metadata.0.name}"
     services:
     - kind: Service
       name: ${var.release-name}-${var.release-chart}
