@@ -1,4 +1,3 @@
-
 resource "kubernetes_manifest" "this_dns_endpoint" {
   manifest = yamldecode(local.dns-endpoint-manifest)
 }
@@ -17,7 +16,7 @@ spec:
     recordTTL: 300
     recordType: A
     targets:
-    - ${var.public-ip}
+      - ${var.public-ip}
 
 EOF
 }
