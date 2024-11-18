@@ -1,10 +1,10 @@
 resource "kubernetes_manifest" "this_ingress" {
-  manifest = yamldecode (local.ingress-route-manifest)
+  manifest = yamldecode(local.ingress-route-manifest)
 }
 
 locals {
 
-ingress-route-manifest = <<EOF
+  ingress-route-manifest = <<EOF
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:

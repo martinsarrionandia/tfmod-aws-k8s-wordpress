@@ -3,6 +3,7 @@ resource "helm_release" "wordpress" {
   name       = var.release-name
   repository = var.release-repo
   chart      = var.release-chart
+  values     = [local.wordpress-helm-values]
 
   set {
     name  = "replicaCount"
@@ -22,18 +23,6 @@ resource "helm_release" "wordpress" {
   set {
     name  = "mariadb.networkPolicy.enabled"
     value = "false"
-  }
-
-  set {
-    name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
-    value = yamlencode(local.fqdn)
-    type  = "string"
-  }
-  
-  set {
-    name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/target"
-    value = yamlencode(var.public-ip)
-    type  = "string"
   }
 
   set {
@@ -78,8 +67,6 @@ resource "helm_release" "wordpress" {
     value = "true"
   }
 
-  values = [local.wordpress-helm-values]
-
   set {
     name  = "wordpressUsername"
     value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["wordpressUsername"]
@@ -99,4 +86,22 @@ resource "helm_release" "wordpress" {
     name  = "mariadb.auth.password"
     value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["mariadb.auth.password"]
   }
+}
+
+locals {
+
+  wordpress-helm-values = <<EOF
+containerSecurityContext:
+  seLinuxOptions:
+    level: ${local.selinux-level}
+resources:
+  requests:
+    cpu: 25m
+mariadb:
+  primary:
+    resources:
+      requests:
+        cpu: 25m
+
+EOF
 }

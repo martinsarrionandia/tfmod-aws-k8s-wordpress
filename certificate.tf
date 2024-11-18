@@ -1,10 +1,10 @@
 resource "kubernetes_manifest" "this_certificate" {
-  manifest = yamldecode (local.certificate-manifest)
+  manifest = yamldecode(local.certificate-manifest)
 }
 
 locals {
 
-certificate-manifest = <<EOF
+  certificate-manifest = <<EOF
 
 apiVersion: cert-manager.io/v1
 kind: Certificate
