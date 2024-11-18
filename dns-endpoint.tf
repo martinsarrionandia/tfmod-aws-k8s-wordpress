@@ -10,6 +10,7 @@ apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
   name: ${var.release-name}-record
+  namespace: ${kubernetes_namespace.this.metadata.0.name}
 spec:
   endpoints:
   - dnsName: 
