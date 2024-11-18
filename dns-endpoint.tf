@@ -13,11 +13,11 @@ metadata:
   namespace: ${kubernetes_namespace.this.metadata.0.name}
 spec:
   endpoints:
-  - dnsName: 
+  - dnsName: ${local.fqdn}
     recordTTL: 300
     recordType: A
     targets:
-    - ${local.fqdn}
+    - ${var.public-ip}
 
   EOF
 }
