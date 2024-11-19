@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,9 +21,6 @@ spec:
         app.kubernetes.io/name: sync-uploads
     spec:
       securityContext:
-        #runAsGroup: "${run-as-user}"
-        #runAsNonRoot: false
-        #runAsUser: "${run-as-group}"
         seLinuxOptions:
           level: "${selinux-level}"
       containers:
@@ -45,3 +43,4 @@ spec:
         - name: uploads
           persistentVolumeClaim: 
             claimName : "${uploads-claim}"
+---

@@ -5,6 +5,7 @@ resource "kubernetes_manifest" "this_ingress" {
 locals {
 
   ingress-route-manifest = <<EOF
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -41,6 +42,7 @@ spec:
     certResolver: "${var.cluster-issuer}"
     domains:
     - main: ${local.fqdn}
+---
 
 EOF
 }

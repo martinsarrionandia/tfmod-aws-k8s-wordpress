@@ -5,7 +5,7 @@ resource "kubernetes_manifest" "this_certificate" {
 locals {
 
   certificate-manifest = <<EOF
-
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -19,6 +19,7 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - ${local.fqdn}
+---
 
 EOF
 }

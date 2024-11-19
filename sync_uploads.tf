@@ -3,8 +3,6 @@ resource "kubernetes_manifest" "sync_uploads" {
     {
       release-name          = var.release-name
       namespace             = kubernetes_namespace.this.metadata.0.name
-      run-as-user           = var.run-as-user
-      run-as-group          = var.run-as-group
       selinux-level         = local.selinux-level
       uploads-claim         = "${kubernetes_persistent_volume_claim.wordpress_uploads.metadata.0.name}"
       s3-region             = local.s3-region
