@@ -3,10 +3,7 @@ resource "kubernetes_manifest" "middleware-cdn-rewrite" {
 }
 
 locals {
-
-
   middleware-cdn-rewrite-manifest = <<EOF
----
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -25,7 +22,6 @@ spec:
           - GET
         types:
           - text/html
----
 
 EOF
 }
