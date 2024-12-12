@@ -68,6 +68,6 @@ variable "wordpress-uploads-dir" {
 }
 
 variable "additional-middlewares" {
-  type    = list(map)
+  type    = list(map(string))
   default = []
 }
