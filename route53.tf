@@ -4,6 +4,7 @@ data "aws_route53_zone" "this" {
 }
 
 resource "aws_route53_record" "this" {
+  count   = 0
   zone_id = data.aws_route53_zone.this.id
   name    = local.fqdn
   type    = "A"

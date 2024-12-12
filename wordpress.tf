@@ -16,6 +16,18 @@ resource "helm_release" "wordpress" {
   }
 
   set {
+    name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
+    value = yamlencode(local.fqdn)
+    type  = "string"
+  }
+
+  set {
+    name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/target"
+    value = yamlencode(var.public-ip)
+    type  = "string"
+  }
+
+  set {
     name  = "networkPolicy.enabled"
     value = "false"
   }

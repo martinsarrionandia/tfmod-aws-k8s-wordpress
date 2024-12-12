@@ -1,5 +1,6 @@
 resource "kubernetes_manifest" "this_certificate" {
   manifest = yamldecode(local.certificate-manifest)
+  count    = 0
 }
 
 locals {

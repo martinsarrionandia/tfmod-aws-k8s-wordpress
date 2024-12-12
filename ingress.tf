@@ -1,50 +1,48 @@
-resource "kubernetes_manifest" "this_ingress" {
-  manifest = yamldecode(local.ingress-route-manifest)
-}
-
-locals {
-
-  ingress-route-manifest = <<EOF
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: ${var.release-name}
-  namespace: "${kubernetes_namespace.this.metadata.0.name}"
-  annotations:
-    cert-manager.io/cluster-issuer: "${var.cluster-issuer}"
-spec:
-  entryPoints:
-    - web
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`${local.fqdn}`) && PathPrefix(`/`)
-      priority: 10
-      middlewares:
-        - name: "${local.middleware-cdn-rewrite-name}"
-          namespace: "${kubernetes_namespace.this.metadata.0.name}"
-        %{for middleware in var.additional-middlewares}
-        - name: ${middleware.name}
-          namespace: ${middleware.namespace}
-        %{endfor}
-      services:
-      - kind: Service
-        name: ${var.release-name}-${var.release-chart}
-        namespace: ${kubernetes_namespace.this.metadata.0.name}
-        #passHostHeader: true
-        port: 80
-        #responseForwarding:
-        #  flushInterval: 1ms
-        #scheme: https
-        #serversTransport: transport
-  tls:
-    secretName: "${local.fqdn}-secret"
-    #options:
-    #  name:
-    #  namespace: default
-    certResolver: "${var.cluster-issuer}"
-    domains:
-      - main: ${local.fqdn}
-
-EOF
+resource "kubernetes_manifest" "this-ingress" {
+  manifest = {
+    apiVersion = "networking.k8s.io/v1"
+    kind       = "Ingress"
+    metadata = {
+      annotations = {
+        "cert-manager.io/cluster-issuer"                   = var.cluster-issuer
+        "traefik.ingress.kubernetes.io/router.middlewares" = local.middlewares
+      }
+      labels = {
+        app = var.release-chart
+      }
+      name      = var.release-name
+      namespace = kubernetes_namespace.this.metadata.0.name
+    }
+    spec = {
+      rules = [
+        {
+          host = local.fqdn
+          http = {
+            paths = [
+              {
+                backend = {
+                  service = {
+                    name = "${var.release-name}-${var.release-chart}"
+                    port = {
+                      number = 80
+                    }
+                  }
+                }
+                path     = "/"
+                pathType = "Prefix"
+              },
+            ]
+          }
+        },
+      ]
+      tls = [
+        {
+          hosts = [
+            local.fqdn,
+          ]
+          secretName = var.cluster-issuer
+        },
+      ]
+    }
+  }
 }
