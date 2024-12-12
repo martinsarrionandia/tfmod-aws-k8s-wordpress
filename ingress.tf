@@ -25,8 +25,8 @@ spec:
       namespace: "${kubernetes_namespace.this.metadata.0.name}"
     <<EOT
     %{for middleware in var.additional-middlewares}
-    - name: ${middlware.name}
-      namespace: ${middlware.namespace}
+    - name: ${middleware.name}
+      namespace: ${middleware.namespace}
     %{endfor}
     EOT
     services:
