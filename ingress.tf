@@ -23,6 +23,12 @@ spec:
     middlewares:
     - name: "${local.middleware-cdn-rewrite-name}"
       namespace: "${kubernetes_namespace.this.metadata.0.name}"
+    <<EOT
+    %{for middleware in var.additional-middlewares}
+    - name: ${middlware.name}
+      namespace: ${middlware.namespace}
+    %{endfor}
+    EOT
     services:
     - kind: Service
       name: ${var.release-name}-${var.release-chart}

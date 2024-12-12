@@ -15,5 +15,4 @@ locals {
 
   middleware-cdn-rewrite-name = "${var.release-name}-cdn-rewrite"
   middleware-cdn-rewrite      = "${kubernetes_namespace.this.metadata.0.name}-${local.middleware-cdn-rewrite-name}@kubernetescrd"
-  middlewares                 = join(", ", concat([local.middleware-cdn-rewrite], var.additional-middlewares))
 }
