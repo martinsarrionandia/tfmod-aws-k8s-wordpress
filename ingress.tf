@@ -17,26 +17,26 @@ spec:
     - web
     - websecure
   routes:
-  - kind: Rule
-    match: Host(`${local.fqdn}`) && PathPrefix(`/`)
-    priority: 10
-    middlewares:
-    - name: "${local.middleware-cdn-rewrite-name}"
-      namespace: "${kubernetes_namespace.this.metadata.0.name}"
-    %{for middleware in var.additional-middlewares}
-    - name: ${middleware.name}
-      namespace: ${middleware.namespace}
-    %{endfor}
-    services:
-    - kind: Service
-      name: ${var.release-name}-${var.release-chart}
-      namespace: ${kubernetes_namespace.this.metadata.0.name}
-      #passHostHeader: true
-      port: 80
-      #responseForwarding:
-      #  flushInterval: 1ms
-      #scheme: https
-      #serversTransport: transport
+    - kind: Rule
+      match: Host(`${local.fqdn}`) && PathPrefix(`/`)
+      priority: 10
+      middlewares:
+        - name: "${local.middleware-cdn-rewrite-name}"
+          namespace: "${kubernetes_namespace.this.metadata.0.name}"
+        %{for middleware in var.additional-middlewares}
+        - name: ${middleware.name}
+          namespace: ${middleware.namespace}
+        %{endfor}
+      services:
+      - kind: Service
+        name: ${var.release-name}-${var.release-chart}
+        namespace: ${kubernetes_namespace.this.metadata.0.name}
+        #passHostHeader: true
+        port: 80
+        #responseForwarding:
+        #  flushInterval: 1ms
+        #scheme: https
+        #serversTransport: transport
   tls:
     secretName: "${local.fqdn}-secret"
     #options:
@@ -44,7 +44,7 @@ spec:
     #  namespace: default
     certResolver: "${var.cluster-issuer}"
     domains:
-    - main: ${local.fqdn}
+      - main: ${local.fqdn}
 
 EOF
 }
