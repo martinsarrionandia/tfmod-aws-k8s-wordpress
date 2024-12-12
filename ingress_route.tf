@@ -24,10 +24,10 @@ spec:
       middlewares:
         - name: "${local.middleware-cdn-rewrite-name}"
           namespace: "${kubernetes_namespace.this.metadata.0.name}"
- #       %{for middleware in var.additional-middlewares}
- #       - name: ${middleware.name}@kubernetescrd
- #         namespace: ${middleware.namespace}
- #       %{endfor}
+        %{for middleware in var.additional-middlewares-map}
+        - name: ${middleware.name}@kubernetescrd
+          namespace: ${middleware.namespace}
+        %{endfor}
       services:
       - kind: Service
         name: ${var.release-name}-${var.release-chart}
