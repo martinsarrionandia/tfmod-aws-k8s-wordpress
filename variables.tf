@@ -73,6 +73,6 @@ variable "additional-middlewares-map" {
 }
 
 variable "additional-middlewares" {
-  type    = list()
+  type    = list(string)
   default = []
 }
