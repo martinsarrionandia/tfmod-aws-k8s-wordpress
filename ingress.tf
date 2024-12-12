@@ -4,6 +4,8 @@ resource "kubernetes_manifest" "this-ingress" {
     kind       = "Ingress"
     metadata = {
       annotations = {
+        "external-dns.alpha.kubernetes.io/hostname"        = local.fqdn
+        "external-dns.alpha.kubernetes.io/target"          = var.public-ip
         "cert-manager.io/cluster-issuer"                   = var.cluster-issuer
         "traefik.ingress.kubernetes.io/router.middlewares" = local.middlewares
       }
