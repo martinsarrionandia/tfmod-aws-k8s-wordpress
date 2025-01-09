@@ -65,7 +65,7 @@ resource "kubernetes_persistent_volume" "wordpress_root" {
 resource "kubernetes_persistent_volume_claim" "wordpress_root" {
   metadata {
     name      = "${var.release-name}-wordpress-root-claim"
-    namespace = kubernetes_namespace.this.metadata.0.name
+    namespace = kubernetes_namespace.this.metadata[0].name
   }
   spec {
     storage_class_name = var.amazon-ebs-class
@@ -75,7 +75,7 @@ resource "kubernetes_persistent_volume_claim" "wordpress_root" {
         storage = "1Gi"
       }
     }
-    volume_name = kubernetes_persistent_volume.wordpress_root.metadata.0.name
+    volume_name = kubernetes_persistent_volume.wordpress_root.metadata[0].name
   }
 }
 
@@ -104,7 +104,7 @@ resource "kubernetes_persistent_volume" "wordpress_maria" {
 resource "kubernetes_persistent_volume_claim" "wordpress_maria" {
   metadata {
     name      = "${var.release-name}-wordpress-maria-claim"
-    namespace = kubernetes_namespace.this.metadata.0.name
+    namespace = kubernetes_namespace.this.metadata[0].name
   }
   spec {
     storage_class_name = var.amazon-ebs-class
@@ -114,7 +114,7 @@ resource "kubernetes_persistent_volume_claim" "wordpress_maria" {
         storage = "1Gi"
       }
     }
-    volume_name = kubernetes_persistent_volume.wordpress_maria.metadata.0.name
+    volume_name = kubernetes_persistent_volume.wordpress_maria.metadata[0].name
   }
 }
 
@@ -143,7 +143,7 @@ resource "kubernetes_persistent_volume" "wordpress_uploads" {
 resource "kubernetes_persistent_volume_claim" "wordpress_uploads" {
   metadata {
     name      = "${var.release-name}-wordpress-uploads-claim"
-    namespace = kubernetes_namespace.this.metadata.0.name
+    namespace = kubernetes_namespace.this.metadata[0].name
   }
   spec {
     storage_class_name = var.amazon-ebs-class
@@ -153,6 +153,6 @@ resource "kubernetes_persistent_volume_claim" "wordpress_uploads" {
         storage = "24Gi"
       }
     }
-    volume_name = kubernetes_persistent_volume.wordpress_uploads.metadata.0.name
+    volume_name = kubernetes_persistent_volume.wordpress_uploads.metadata[0].name
   }
 }

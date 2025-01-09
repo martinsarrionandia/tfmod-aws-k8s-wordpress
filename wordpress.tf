@@ -1,5 +1,5 @@
 resource "helm_release" "wordpress" {
-  namespace  = kubernetes_namespace.this.metadata.0.name
+  namespace  = kubernetes_namespace.this.metadata[0].name
   name       = var.release-name
   repository = var.release-repo
   chart      = var.release-chart
@@ -39,12 +39,12 @@ resource "helm_release" "wordpress" {
 
   set {
     name  = "persistence.existingClaim"
-    value = kubernetes_persistent_volume_claim.wordpress_root.metadata.0.name
+    value = kubernetes_persistent_volume_claim.wordpress_root.metadata[0].name
   }
 
   set {
     name  = "mariadb.primary.persistence.existingClaim"
-    value = kubernetes_persistent_volume_claim.wordpress_maria.metadata.0.name
+    value = kubernetes_persistent_volume_claim.wordpress_maria.metadata[0].name
   }
 
   set {
@@ -53,7 +53,7 @@ resource "helm_release" "wordpress" {
       {
         "name" : "uploads",
         "persistentVolumeClaim" : {
-          "claimName" : "${kubernetes_persistent_volume_claim.wordpress_uploads.metadata.0.name}"
+          "claimName" : kubernetes_persistent_volume_claim.wordpress_uploads.metadata[0].name
         }
       }
     ])
