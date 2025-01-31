@@ -21,6 +21,10 @@ variable "release-chart" {
   default = "wordpress"
 }
 
+variable "image-tag" {
+  type = string
+}
+
 variable "cdn-bucket-name" {
   type = string
 }
