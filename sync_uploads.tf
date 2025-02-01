@@ -1,13 +1,48 @@
-resource "kubernetes_manifest" "sync_uploads" {
-  manifest = yamldecode(templatefile("${path.module}/templates/deployment_sync_uploads.yaml",
-    {
-      release-name          = var.release-name
-      namespace             = kubernetes_namespace.this.metadata[0].name
-      selinux-level         = local.selinux-level
-      uploads-claim         = kubernetes_persistent_volume_claim.wordpress_uploads.metadata[0].name
-      s3-region             = local.s3-region
-      s3-uploads-path       = local.s3-cdn-wordpresss-uploads-path
-      aws_access_key_id     = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_access_key_id"]
-      aws_secret_access_key = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_secret_access_key"]
-  }))
+resource "kubectl_manifest" "sync_uploads" {
+  yaml_body = <<YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sync-uploads
+  namespace: "${kubernetes_namespace.this.metadata[0].name}"
+  labels:
+    app: sync-uploads
+    app.kubernetes.io/instance: "${var.release-name}"
+    app.kubernetes.io/name: sync-uploads
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sync-uploads
+  template:
+    metadata:
+      labels:
+        app: sync-uploads
+        app.kubernetes.io/instance: "${var.release-name}"
+        app.kubernetes.io/name: sync-uploads
+    spec:
+      securityContext:
+        seLinuxOptions:
+          level: "${local.selinux-level}"
+      containers:
+        - name: mc
+          image: minio/mc:latest
+          command: ["sh", "-c"]
+          args:
+          - |
+            mc alias set s3 https://s3.${local.s3-region}.amazonaws.com:443 "${local.aws_access_key_id}" "${local.aws_secret_access_key}"
+            mc mirror --quiet --overwrite --watch /uploads/ s3/"${local.s3-cdn-wordpresss-uploads-path}"
+          env:
+          - name: AWS_ACCESS_KEY_ID
+            value: "${local.aws_access_key_id}"
+          - name: AWS_SECRET_ACCESS_KEY
+            value: "${local.aws_secret_access_key}"
+          volumeMounts:
+            - name: uploads
+              mountPath: /uploads
+      volumes:
+        - name: uploads
+          persistentVolumeClaim: 
+            claimName : "${kubernetes_persistent_volume_claim.wordpress_uploads.metadata[0].name}"
+YAML
 }

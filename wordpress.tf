@@ -16,6 +16,11 @@ resource "helm_release" "wordpress" {
   }
 
   set {
+    name  = "image.tag"
+    value = var.image-tag
+  }
+
+  set {
     name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
     value = yamlencode(local.fqdn)
     type  = "string"
