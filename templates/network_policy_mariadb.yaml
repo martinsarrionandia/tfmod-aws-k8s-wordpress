@@ -14,7 +14,7 @@ spec:
               - key: app.kubernetes.io/instance
                 operator: In
                 values:
-                  - mojobooth
+                  - "${release-name}"
               - key: app.kubernetes.io/name
                 operator: In
                 values:
