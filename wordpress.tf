@@ -99,6 +99,17 @@ resource "helm_release" "wordpress" {
     name  = "mariadb.auth.password"
     value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["mariadb.auth.password"]
   }
+
+  set {
+    name  = "image.debug"
+    value = var.debug
+  }
+
+  set {
+    name  = "diagnosticMode"
+    value = var.diagnostic
+  }
+
 }
 
 locals {

@@ -67,6 +67,16 @@ variable "initial-setup" {
   default = "false"
 }
 
+variable "debug" {
+  type    = bool
+  default = "false"
+}
+
+variable "diagnostic" {
+  type    = bool
+  default = "false"
+}
+
 variable "wordpress-uploads-dir" {
   type    = string
   default = "wp-content/uploads"

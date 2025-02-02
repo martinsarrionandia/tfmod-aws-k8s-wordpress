@@ -51,23 +51,23 @@ resource "kubernetes_network_policy" "sync_uploads_network_policy" {
       to {
         namespace_selector {
           match_expressions {
-            key = "kubernetes.io/metadata.name"
+            key      = "kubernetes.io/metadata.name"
             operator = "In"
-            values = ["kube-system"]
+            values   = ["kube-system"]
           }
           match_labels = {
-            name = "kubernetes.io/metadata.name"
+            name  = "kubernetes.io/metadata.name"
             value = "kube-system"
           }
         }
         pod_selector {
           match_expressions {
-            key = "k8s-app"
+            key      = "k8s-app"
             operator = "In"
-            values = ["kube-dns"]
+            values   = ["kube-dns"]
           }
           match_labels = {
-            name = "k8s-app"
+            name  = "k8s-app"
             value = "kube-dns"
           }
         }
@@ -79,14 +79,14 @@ resource "kubernetes_network_policy" "sync_uploads_network_policy" {
         protocol = "TCP"
       }
 
-      dynamic to {
+      dynamic "to" {
         for_each = data.aws_prefix_list.s3_prefix_list.cidr_blocks
-          content {
-            ip_block {
-              cidr = to.value
-            }
+        content {
+          ip_block {
+            cidr = to.value
           }
-        
+        }
+
       }
     }
     ingress {} # single empty rule to allow all ingress traffic

@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "sync_uploads" {
-  count = var.initial-setup == true ? 0 : 1
+  count    = var.initial-setup == true ? 0 : 1
   manifest = <<YAML
 apiVersion: apps/v1
 kind: Deployment
