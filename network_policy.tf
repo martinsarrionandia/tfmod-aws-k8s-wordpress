@@ -1,4 +1,5 @@
 resource "kubernetes_manifest" "wordpress_network_policy" {
+  count = var.initial-setup == true ? 0 : 1
   manifest = yamldecode(templatefile("${path.module}/templates/network_policy_wordpress.yaml",
     {
       release-name = var.release-name,
@@ -7,6 +8,7 @@ resource "kubernetes_manifest" "wordpress_network_policy" {
 }
 
 resource "kubernetes_manifest" "mariadb_network_policy" {
+  count = var.initial-setup == true ? 0 : 1
   manifest = yamldecode(templatefile("${path.module}/templates/network_policy_mariadb.yaml",
     {
       release-name = var.release-name,
@@ -15,6 +17,7 @@ resource "kubernetes_manifest" "mariadb_network_policy" {
 }
 
 resource "kubernetes_network_policy" "sync_uploads_network_policy" {
+  count = var.initial-setup == true ? 0 : 1
   metadata {
     name      = "${var.release-name}-sync-uploads"
     namespace = kubernetes_namespace.this.metadata[0].name
