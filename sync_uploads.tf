@@ -1,5 +1,6 @@
-resource "kubectl_manifest" "sync_uploads" {
-  yaml_body = <<YAML
+resource "kubernetes_manifest" "sync_uploads" {
+  count = var.initial-setup == true ? 0 : 1
+  manifest = <<YAML
 apiVersion: apps/v1
 kind: Deployment
 metadata:
