@@ -106,7 +106,7 @@ resource "helm_release" "wordpress" {
   }
 
   set {
-    name  = "diagnosticMode"
+    name  = "diagnosticMode.enabled"
     value = var.diagnostic
   }
 
