@@ -8,11 +8,20 @@ spec:
   egress:
     - {}
   ingress:
-    - ports:
-        - port: 3306
-          protocol: TCP
-        - port: 3306
-          protocol: TCP
+    - from:
+        - podSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                  - mojobooth
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - wordpress
+            matchLabels:
+              app.kubernetes.io/instance: "${release-name}"
+              app.kubernetes.io/name: wordpress
   podSelector:
     matchLabels:
       app.kubernetes.io/instance: "${release-name}"

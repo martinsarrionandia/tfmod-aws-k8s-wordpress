@@ -14,10 +14,7 @@ resource "kubernetes_manifest" "mariadb_network_policy" {
   }))
 }
 
-
-
 resource "kubernetes_network_policy" "sync_uploads_network_policy" {
-  count = 0
   metadata {
     name      = "${var.release-name}-sync-uploads"
     namespace = kubernetes_namespace.this.metadata[0].name
@@ -40,21 +37,55 @@ resource "kubernetes_network_policy" "sync_uploads_network_policy" {
 
     egress {
       ports {
-        port     = "http"
+        port     = "53"
         protocol = "TCP"
       }
       ports {
-        port     = "8125"
+        port     = "53"
         protocol = "UDP"
       }
 
       to {
-        ip_block {
-          cidr = "10.0.0.0/8"
+        namespace_selector {
+          match_expressions {
+            key = "kubernetes.io/metadata.name"
+            operator = "In"
+            values = ["kube-system"]
+          }
+          match_labels = {
+            name = "kubernetes.io/metadata.name"
+            value = "kube-system"
+          }
+        }
+        pod_selector {
+          match_expressions {
+            key = "k8s-app"
+            operator = "In"
+            values = ["kube-dns"]
+          }
+          match_labels = {
+            name = k8s-app
+            value = kube-dns
+          }
         }
       }
     }
+    egress {
+      ports {
+        port     = "443"
+        protocol = "TCP"
+      }
 
-    ingress {} # single empty rule to allow all egress traffic
+      dynamic to {
+        for_each = data.aws_prefix_list.s3_prefix_list.cidrs
+          content {
+            ip_block {
+              cidr = to.value
+            }
+          }
+        
+      }
+    }
+    ingress {} # single empty rule to allow all ingress traffic
   }
 }
