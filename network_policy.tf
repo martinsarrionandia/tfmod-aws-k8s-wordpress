@@ -64,8 +64,8 @@ resource "kubernetes_network_policy" "sync_uploads_network_policy" {
             values = ["kube-dns"]
           }
           match_labels = {
-            name = k8s-app
-            value = kube-dns
+            name = "k8s-app"
+            value = "kube-dns"
           }
         }
       }
@@ -77,7 +77,7 @@ resource "kubernetes_network_policy" "sync_uploads_network_policy" {
       }
 
       dynamic to {
-        for_each = data.aws_prefix_list.s3_prefix_list.cidrs
+        for_each = data.aws_prefix_list.s3_prefix_list.cidr_blocks
           content {
             ip_block {
               cidr = to.value
