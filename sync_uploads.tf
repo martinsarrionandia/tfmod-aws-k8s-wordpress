@@ -1,6 +1,6 @@
 resource "kubernetes_manifest" "sync_uploads" {
   count    = var.initial-setup == true ? 0 : 1
-  manifest = yamlencode(local.sync-uploads-manifest)
+  manifest = yamldecode(local.sync-uploads-manifest)
 }
 
 locals {

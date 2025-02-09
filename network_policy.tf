@@ -32,7 +32,7 @@ resource "kubernetes_network_policy" "sync_uploads_network_policy" {
         values   = ["${var.release-name}"]
       }
       match_expressions {
-        key      = "app.kubernetes.io/name:"
+        key      = "app.kubernetes.io/name"
         operator = "In"
         values   = ["sync-uploads"]
       }
