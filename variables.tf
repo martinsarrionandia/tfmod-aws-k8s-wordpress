@@ -13,7 +13,7 @@ variable "release-name" {
 
 variable "release-repo" {
   type    = string
-  default = "https://charts.bitnami.com/bitnami"
+  default = "oci://registry-1.docker.io/bitnamicharts"
 }
 
 variable "release-chart" {
