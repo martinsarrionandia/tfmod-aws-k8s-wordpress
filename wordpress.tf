@@ -3,7 +3,7 @@ resource "helm_release" "wordpress" {
   name       = var.release-name
   repository = var.release-repo
   chart      = var.release-chart
-  version    = var.version == "latest" ? null : var.version
+  version    = var.release-version == "latest" ? null : var.release-version
   values     = [local.wordpress-helm-values]
 
   set {

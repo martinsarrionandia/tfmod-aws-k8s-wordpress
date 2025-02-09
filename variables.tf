@@ -21,7 +21,7 @@ variable "release-chart" {
   default = "wordpress"
 }
 
-variable "version" {
+variable "release-version" {
   type    = string
   default = "latest"
 }
