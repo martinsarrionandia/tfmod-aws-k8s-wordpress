@@ -1,6 +1,10 @@
 resource "kubernetes_manifest" "sync_uploads" {
   count    = var.initial-setup == true ? 0 : 1
-  manifest = <<YAML
+  manifest = yamlencode(local.sync-uploads-manifest)
+}
+
+locals {
+  sync-uploads-manifest = <<YAML
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -46,4 +50,5 @@ spec:
           persistentVolumeClaim: 
             claimName : "${kubernetes_persistent_volume_claim.wordpress_uploads.metadata[0].name}"
 YAML
+
 }
