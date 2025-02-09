@@ -21,9 +21,9 @@ variable "release-chart" {
   default = "wordpress"
 }
 
-variable "release-version" {
+variable "image-tag" {
   type    = string
-  default = "wordpress"
+  default = "6.5.2-debian-12-r10"
 }
 
 variable "cdn-bucket-name" {

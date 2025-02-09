@@ -3,8 +3,12 @@ resource "helm_release" "wordpress" {
   name       = var.release-name
   repository = var.release-repo
   chart      = var.release-chart
-  version    = var.release-version
   values     = [local.wordpress-helm-values]
+
+  set {
+    name  = "image.tag"
+    value = var.image-tag
+  }
 
   set {
     name  = "replicaCount"
