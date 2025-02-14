@@ -118,6 +118,11 @@ locals {
 containerSecurityContext:
   seLinuxOptions:
     level: ${local.selinux-level}
+volumePermissions:
+  image:
+    containerSecurityContext:
+      seLinuxOptions:
+        level: ${local.selinux-level}
 resources:
   requests:
     cpu: 25m
