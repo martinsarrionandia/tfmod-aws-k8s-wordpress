@@ -77,7 +77,7 @@ resource "helm_release" "wordpress" {
 
   set {
     name  = "containerSecurityContext.enabled"
-    value = "true"
+    value = var.initial-setup == true ? false : true
   }
 
   set {
