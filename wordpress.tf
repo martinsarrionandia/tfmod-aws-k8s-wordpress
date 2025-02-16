@@ -62,7 +62,7 @@ resource "helm_release" "wordpress" {
 
   set {
     name = "extraVolumeMounts"
-    value = var.initial-setup == true ? null : yamlencode([
+    value = var.initial-setup == true ? "" : yamlencode([
       {
         "name" : "uploads",
         "mountPath" : "/bitnami/wordpress/${var.wordpress-uploads-dir}"
