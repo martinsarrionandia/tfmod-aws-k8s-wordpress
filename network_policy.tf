@@ -15,7 +15,6 @@ resource "kubernetes_manifest" "mariadb_network_policy" {
 }
 
 resource "kubernetes_manifest" "sync_uploads_network_policy" {
-  count = var.initial-setup == true ? 0 : 1
   manifest = yamldecode(templatefile("${path.module}/templates/network_policy_sync_uploads.yaml",
     {
       release-name   = var.release-name,
