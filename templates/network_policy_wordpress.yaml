@@ -36,7 +36,7 @@ spec:
               - key: app.kubernetes.io/instance
                 operator: In
                 values:
-                  - "${namespace}"
+                  - "${release-name}"
               - key: app.kubernetes.io/name
                 operator: In
                 values:
