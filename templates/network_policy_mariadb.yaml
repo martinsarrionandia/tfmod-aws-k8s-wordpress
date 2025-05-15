@@ -5,8 +5,6 @@ metadata:
   name: "${release-name}-mariadb"
   namespace: "${namespace}"
 spec:
-  egress:
-    - {}
   ingress:
     - from:
         - podSelector:
