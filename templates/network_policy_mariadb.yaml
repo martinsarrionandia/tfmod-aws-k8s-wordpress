@@ -20,6 +20,9 @@ spec:
             matchLabels:
               app.kubernetes.io/instance: "${release-name}"
               app.kubernetes.io/name: wordpress
+      ports:
+        - port: 3306
+          protocol: TCP
   podSelector:
     matchLabels:
       app.kubernetes.io/instance: "${release-name}"
