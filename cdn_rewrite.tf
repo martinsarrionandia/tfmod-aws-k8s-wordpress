@@ -1,5 +1,8 @@
 resource "kubernetes_manifest" "middleware-cdn-rewrite" {
   manifest = yamldecode(local.middleware-cdn-rewrite-manifest)
+  field_manager {
+    force_conflicts = true
+  }
 }
 
 locals {
@@ -14,7 +17,9 @@ spec:
     rewrite-body:
       lastModified: true
       rewrites:
-        - regex: "https?://${local.fqdn}/${var.wordpress-uploads-dir}"
+        - regex: "${local.uploads_url_regex}"
+          replacement: "https://${local.s3-cdn-wordpresss-uploads-path}"
+        - regex: "${local.uploads_url_json_regex}"
           replacement: "https://${local.s3-cdn-wordpresss-uploads-path}"
       logLevel: 0
       monitoring:
