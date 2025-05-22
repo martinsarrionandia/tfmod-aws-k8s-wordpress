@@ -16,12 +16,8 @@ locals {
   middlewares                     = join(", ", concat([local.middleware-scheme-redirect], [local.middleware-cdn-rewrite], var.additional-middlewares))
   aws_access_key_id               = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_access_key_id"]
   aws_secret_access_key           = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_secret_access_key"]
-  uploads_url                     = "https?://${local.fqdn}/${var.wordpress-uploads-dir}"
-  uploads_url_regex               = replace(local.uploads_url, ".", "\\.")
-  uploads_url_json_regex          = replace(local.uploads_url_regex, "/", "\\/")
+  uploads_url                     = "https?://${local.fqdn}/${var.wordpress-uploads-dir}/"
+  #Escaped twice for double the pleasure. \\\\ Equals one \ in middleware
+  uploads_url_regex      = replace(local.uploads_url, ".", "\\\\.")
+  uploads_url_json_regex = replace(local.uploads_url_regex, "/", "\\\\\\\\/")
 }
-
-#URL https://www.djmaddox.co.uk/wp-content/uploads/favicon-150x150.webp
-
-#MYATUSURL https:\/\/www.djmaddox.co.uk\/wp-content\/uploads\/Fishguard-Prom-DJ-@-Crug-Glas-013-1.webp
-

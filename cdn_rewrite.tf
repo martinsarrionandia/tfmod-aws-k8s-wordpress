@@ -18,9 +18,9 @@ spec:
       lastModified: true
       rewrites:
         - regex: "${local.uploads_url_regex}"
-          replacement: "https://${local.s3-cdn-wordpresss-uploads-path}"
+          replacement: "https://${local.s3-cdn-wordpresss-uploads-path}/"
         - regex: "${local.uploads_url_json_regex}"
-          replacement: "https://${local.s3-cdn-wordpresss-uploads-path}"
+          replacement: "https://${local.s3-cdn-wordpresss-uploads-path}/"
       logLevel: 0
       monitoring:
         methods:
