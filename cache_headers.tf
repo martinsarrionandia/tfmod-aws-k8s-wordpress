@@ -1,12 +1,12 @@
 resource "kubernetes_manifest" "middleware-cache-control" {
-  manifest = yamldecode(local.middleware-cache-control)
+  manifest = yamldecode(local.middleware-cache-control-manifest)
   field_manager {
     force_conflicts = true
   }
 }
 
 locals {
-  middleware-cache-control = <<EOF
+  middleware-cache-control-manifest = <<EOF
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
