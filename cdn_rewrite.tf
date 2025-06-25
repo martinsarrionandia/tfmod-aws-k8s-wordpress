@@ -28,6 +28,7 @@ spec:
         types:
           - text/html
           - application/json
-
+          - application/javascript
+          - text/javascript
 EOF
 }
