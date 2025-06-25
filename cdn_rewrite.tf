@@ -27,6 +27,7 @@ spec:
           - GET
         types:
           - text/html
+          - application/json
 
 EOF
 }
