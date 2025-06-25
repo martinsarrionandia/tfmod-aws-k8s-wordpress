@@ -25,6 +25,7 @@ spec:
       monitoring:
         methods:
           - GET
+          - POST
         types:
           - text/html
           - application/json
