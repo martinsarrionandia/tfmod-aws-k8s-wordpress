@@ -31,5 +31,6 @@ spec:
           - application/json
           - application/javascript
           - text/javascript
+          - text/css   
 EOF
 }
