@@ -6,104 +6,88 @@ resource "helm_release" "wordpress" {
   version    = var.release-version == "latest" ? null : var.release-version
   values     = [local.wordpress-helm-values]
 
-  set {
+  set = [{
     name  = "replicaCount"
     value = "1"
-  }
-
-  set {
-    name  = "service.type"
-    value = "ClusterIP"
-  }
-
-  set {
-    name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
-    value = yamlencode(local.fqdn)
-    type  = "string"
-  }
-
-  set {
-    name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/target"
-    value = yamlencode(var.public-ip)
-    type  = "string"
-  }
-
-  set {
-    name  = "networkPolicy.enabled"
-    value = "false"
-  }
-
-  set {
-    name  = "mariadb.networkPolicy.enabled"
-    value = "false"
-  }
-
-  set {
-    name  = "persistence.existingClaim"
-    value = kubernetes_persistent_volume_claim.wordpress_root.metadata[0].name
-  }
-
-  set {
-    name  = "mariadb.primary.persistence.existingClaim"
-    value = kubernetes_persistent_volume_claim.wordpress_maria.metadata[0].name
-  }
-
-  set {
-    name = "extraVolumes"
-    value = yamlencode([
-      {
-        "name" : "uploads",
-        "persistentVolumeClaim" : {
-          "claimName" : kubernetes_persistent_volume_claim.wordpress_uploads.metadata[0].name
+    },
+    {
+      name  = "service.type"
+      value = "ClusterIP"
+    },
+    {
+      name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
+      value = yamlencode(local.fqdn)
+      type  = "string"
+    },
+    {
+      name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/target"
+      value = yamlencode(var.public-ip)
+      type  = "string"
+    },
+    {
+      name  = "networkPolicy.enabled"
+      value = "false"
+    },
+    {
+      name  = "mariadb.networkPolicy.enabled"
+      value = "false"
+    },
+    {
+      name  = "persistence.existingClaim"
+      value = kubernetes_persistent_volume_claim.wordpress_root.metadata[0].name
+    },
+    {
+      name  = "mariadb.primary.persistence.existingClaim"
+      value = kubernetes_persistent_volume_claim.wordpress_maria.metadata[0].name
+    },
+    {
+      name = "extraVolumes"
+      value = yamlencode([
+        {
+          "name" : "uploads",
+          "persistentVolumeClaim" : {
+            "claimName" : kubernetes_persistent_volume_claim.wordpress_uploads.metadata[0].name
+          }
         }
-      }
-    ])
-  }
-
-  set {
-    name = "extraVolumeMounts"
-    value = var.initial-setup == true ? "" : yamlencode([
-      {
-        "name" : "uploads",
-        "mountPath" : "/bitnami/wordpress/${var.wordpress-uploads-dir}"
-      }
-    ])
-  }
-
-  set {
-    name  = "volumePermissions.enabled"
-    value = var.initial-setup
-  }
-
-  set {
-    name  = "wordpressUsername"
-    value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["wordpressUsername"]
-  }
-
-  set {
-    name  = "wordpressPassword"
-    value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["wordpressPassword"]
-  }
-
-  set {
-    name  = "mariadb.auth.rootPassword"
-    value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["mariadb.auth.rootPassword"]
-  }
-
-  set {
-    name  = "mariadb.auth.password"
-    value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["mariadb.auth.password"]
-  }
-
-  set {
-    name  = "image.debug"
-    value = var.debug
-  }
-
-  set {
-    name  = "diagnosticMode.enabled"
-    value = var.diagnostic
-  }
+      ])
+    },
+    {
+      name = "extraVolumeMounts"
+      value = var.initial-setup == true ? "" : yamlencode([
+        {
+          "name" : "uploads",
+          "mountPath" : "/bitnami/wordpress/${var.wordpress-uploads-dir}"
+        }
+      ])
+    },
+    {
+      name  = "volumePermissions.enabled"
+      value = var.initial-setup
+    },
+    {
+      name  = "wordpressUsername"
+      value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["wordpressUsername"]
+    },
+    {
+      name  = "wordpressPassword"
+      value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["wordpressPassword"]
+    },
+    {
+      name  = "mariadb.auth.rootPassword"
+      value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["mariadb.auth.rootPassword"]
+    },
+    {
+      name  = "mariadb.auth.password"
+      value = jsondecode(data.aws_secretsmanager_secret_version.wordpress_current.secret_string)["mariadb.auth.password"]
+    },
+    {
+      name  = "image.debug"
+      value = var.debug
+    },
+    {
+      name  = "diagnosticMode.enabled"
+      value = var.diagnostic
+  }]
 
 }
 
