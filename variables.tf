@@ -64,7 +64,7 @@ variable "cdn-s3-user-secret-arn" {
 
 variable "initial-setup" {
   type    = bool
-  default = "false"
+  default = "true"
 }
 
 variable "debug" {
@@ -90,4 +90,10 @@ variable "additional-middlewares-map" {
 variable "additional-middlewares" {
   type    = list(string)
   default = []
+}
+
+variable "docker_legacy_repo" {
+  description = "Use docker legacy repo"
+  type        = bool
+  default     = false
 }

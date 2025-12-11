@@ -6,7 +6,7 @@ resource "helm_release" "wordpress" {
   version    = var.release-version == "latest" ? null : var.release-version
   values     = [local.wordpress-helm-values]
 
-  set = [{
+  set = concat([{
     name  = "replicaCount"
     value = "1"
     },
@@ -87,7 +87,13 @@ resource "helm_release" "wordpress" {
     {
       name  = "diagnosticMode.enabled"
       value = var.diagnostic
-  }]
+    }],
+    docker_legacy_repo ? [
+      {
+        name  = "volumePermissions.image.repository"
+        value = "bitnamilegacy/os-shell"
+      }
+  ] : [])
 
 }
 
