@@ -92,7 +92,15 @@ resource "helm_release" "wordpress" {
       {
         name  = "volumePermissions.image.repository"
         value = "bitnamilegacy/os-shell"
-      }
+      },
+      {
+        name  = "mariadb.image.repository"
+        value = "bitnamilegacy/mariadb"
+      },
+      {
+        name  = "image.repository"
+        value = "bitnamilegacy/wordpress"
+      },
   ] : [])
 
 }
