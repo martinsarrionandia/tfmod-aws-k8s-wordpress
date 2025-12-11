@@ -10,7 +10,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ${local.fqdn}-cert
-  namespace: ${kubernetes_namespace.this.metadata[0].name}
+  namespace: ${kubernetes_namespace_v1.this.metadata[0].name}
 spec:
   secretName: "${local.fqdn}-secret"
   commonName: ${local.fqdn}

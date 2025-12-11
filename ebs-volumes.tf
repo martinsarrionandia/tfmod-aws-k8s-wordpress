@@ -40,7 +40,7 @@ data "aws_ebs_volume" "wordpress_uploads" {
   }
 }
 
-resource "kubernetes_persistent_volume" "wordpress_root" {
+resource "kubernetes_persistent_volume_v1" "wordpress_root" {
   metadata {
     name = "${var.release-name}-wordpress-root"
     labels = {
@@ -62,10 +62,10 @@ resource "kubernetes_persistent_volume" "wordpress_root" {
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "wordpress_root" {
+resource "kubernetes_persistent_volume_claim_v1" "wordpress_root" {
   metadata {
     name      = "${var.release-name}-wordpress-root-claim"
-    namespace = kubernetes_namespace.this.metadata[0].name
+    namespace = kubernetes_namespace_v1.this.metadata[0].name
   }
   spec {
     storage_class_name = var.amazon-ebs-class
@@ -79,7 +79,7 @@ resource "kubernetes_persistent_volume_claim" "wordpress_root" {
   }
 }
 
-resource "kubernetes_persistent_volume" "wordpress_maria" {
+resource "kubernetes_persistent_volume_v1" "wordpress_maria" {
   metadata {
     name = "${var.release-name}-wordpress-maria"
     labels = {
@@ -101,10 +101,10 @@ resource "kubernetes_persistent_volume" "wordpress_maria" {
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "wordpress_maria" {
+resource "kubernetes_persistent_volume_claim_v1" "wordpress_maria" {
   metadata {
     name      = "${var.release-name}-wordpress-maria-claim"
-    namespace = kubernetes_namespace.this.metadata[0].name
+    namespace = kubernetes_namespace_v1.this.metadata[0].name
   }
   spec {
     storage_class_name = var.amazon-ebs-class
@@ -118,7 +118,7 @@ resource "kubernetes_persistent_volume_claim" "wordpress_maria" {
   }
 }
 
-resource "kubernetes_persistent_volume" "wordpress_uploads" {
+resource "kubernetes_persistent_volume_v1" "wordpress_uploads" {
   metadata {
     name = "${var.release-name}-wordpress-uploads"
     labels = {
@@ -140,10 +140,10 @@ resource "kubernetes_persistent_volume" "wordpress_uploads" {
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "wordpress_uploads" {
+resource "kubernetes_persistent_volume_claim_v1" "wordpress_uploads" {
   metadata {
     name      = "${var.release-name}-wordpress-uploads-claim"
-    namespace = kubernetes_namespace.this.metadata[0].name
+    namespace = kubernetes_namespace_v1.this.metadata[0].name
   }
   spec {
     storage_class_name = var.amazon-ebs-class

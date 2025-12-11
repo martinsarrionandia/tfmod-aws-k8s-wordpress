@@ -10,7 +10,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: ${var.release-name}
-  namespace: "${kubernetes_namespace.this.metadata[0].name}"
+  namespace: "${kubernetes_namespace_v1.this.metadata[0].name}"
   annotations:
     cert-manager.io/cluster-issuer: "${var.cluster-issuer}"
 spec:
@@ -23,7 +23,7 @@ spec:
       priority: 10
       middlewares:
         - name: "${local.middleware-cdn-rewrite-name}"
-          namespace: "${kubernetes_namespace.this.metadata[0].name}"
+          namespace: "${kubernetes_namespace_v1.this.metadata[0].name}"
         %{for middleware in var.additional-middlewares-map}
         - name: ${middleware.name}@kubernetescrd
           namespace: ${middleware.namespace}
@@ -31,7 +31,7 @@ spec:
       services:
       - kind: Service
         name: ${var.release-name}-${var.release-chart}
-        namespace: ${kubernetes_namespace.this.metadata[0].name}
+        namespace: ${kubernetes_namespace_v1.this.metadata[0].name}
         #passHostHeader: true
         port: 80
         #responseForwarding:

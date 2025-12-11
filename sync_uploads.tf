@@ -9,7 +9,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sync-uploads
-  namespace: "${kubernetes_namespace.this.metadata[0].name}"
+  namespace: "${kubernetes_namespace_v1.this.metadata[0].name}"
   labels:
     app: sync-uploads
     app.kubernetes.io/instance: "${var.release-name}"
