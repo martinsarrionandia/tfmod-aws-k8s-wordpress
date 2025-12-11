@@ -48,7 +48,7 @@ spec:
       volumes:
         - name: uploads
           persistentVolumeClaim: 
-            claimName : "${kubernetes_persistent_volume_claim.wordpress_uploads.metadata[0].name}"
+            claimName : "${kubernetes_persistent_volume_claim_v1.wordpress_uploads.metadata[0].name}"
 YAML
 
 }
