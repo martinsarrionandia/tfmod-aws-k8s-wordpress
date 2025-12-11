@@ -88,7 +88,7 @@ resource "helm_release" "wordpress" {
       name  = "diagnosticMode.enabled"
       value = var.diagnostic
     }],
-    docker_legacy_repo ? [
+    var.docker_legacy_repo ? [
       {
         name  = "volumePermissions.image.repository"
         value = "bitnamilegacy/os-shell"
