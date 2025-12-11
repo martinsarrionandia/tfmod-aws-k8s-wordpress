@@ -75,7 +75,7 @@ resource "kubernetes_persistent_volume_claim_v1" "wordpress_root" {
         storage = "1Gi"
       }
     }
-    volume_name = kubernetes_persistent_volume.wordpress_root.metadata[0].name
+    volume_name = kubernetes_persistent_volume_v1.wordpress_root.metadata[0].name
   }
 }
 
@@ -114,7 +114,7 @@ resource "kubernetes_persistent_volume_claim_v1" "wordpress_maria" {
         storage = "1Gi"
       }
     }
-    volume_name = kubernetes_persistent_volume.wordpress_maria.metadata[0].name
+    volume_name = kubernetes_persistent_volume_v1.wordpress_maria.metadata[0].name
   }
 }
 
@@ -153,6 +153,6 @@ resource "kubernetes_persistent_volume_claim_v1" "wordpress_uploads" {
         storage = "24Gi"
       }
     }
-    volume_name = kubernetes_persistent_volume.wordpress_uploads.metadata[0].name
+    volume_name = kubernetes_persistent_volume_v1.wordpress_uploads.metadata[0].name
   }
 }
