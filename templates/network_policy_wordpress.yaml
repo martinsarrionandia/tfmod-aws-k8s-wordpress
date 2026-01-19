@@ -52,6 +52,26 @@ spec:
       to:
         - ipBlock:
             cidr: 0.0.0.0/0
+    - ports:
+        - port: ${http_proxy_port}
+          protocol: TCP
+      to:
+        - namespaceSelector:
+            matchExpressions:
+              - key: kubernetes.io/metadata.name
+                operator: In
+                values:
+                  - ${http_proxy_namespace}
+            matchLabels:
+              kubernetes.io/metadata.name: ${http_proxy_namespace}
+          podSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - ${http_proxy_app}
+            matchLabels:
+              app: ${http_proxy_app}
   ingress:
     - from:
         - ipBlock:

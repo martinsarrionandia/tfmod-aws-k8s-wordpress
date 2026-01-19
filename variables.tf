@@ -97,3 +97,15 @@ variable "docker_legacy_repo" {
   type        = bool
   default     = false
 }
+
+variable "http_proxy_app" {
+  type = string
+}
+
+variable "http_proxy_namespace" {
+  type = string
+}
+
+variable "http_proxy_address" {
+  type = string
+}
