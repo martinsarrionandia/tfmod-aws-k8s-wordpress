@@ -8,7 +8,7 @@ data "aws_ebs_volume" "wordpress_root" {
 
   filter {
     name   = "tag:Name"
-    values = [var.ebs-volname-wordpress-root]
+    values = [var.ebs_volname_wordpress_root]
   }
 }
 
@@ -22,7 +22,7 @@ data "aws_ebs_volume" "wordpress_maria" {
 
   filter {
     name   = "tag:Name"
-    values = [var.ebs-volname-wordpress-mariadb]
+    values = [var.ebs_volname_wordpress_mariadb]
   }
 }
 
@@ -36,19 +36,19 @@ data "aws_ebs_volume" "wordpress_uploads" {
 
   filter {
     name   = "tag:Name"
-    values = [var.ebs-volname-wordpress-uploads]
+    values = [var.ebs_volname_wordpress_uploads]
   }
 }
 
 resource "kubernetes_persistent_volume_v1" "wordpress_root" {
   metadata {
-    name = "${var.release-name}-wordpress-root"
+    name = "${var.release_name}-wordpress-root"
     labels = {
       type = "amazonEBS"
     }
   }
   spec {
-    storage_class_name = var.amazon-ebs-class
+    storage_class_name = var.amazon_ebs_class
     capacity = {
       storage = "1Gi"
     }
@@ -64,11 +64,11 @@ resource "kubernetes_persistent_volume_v1" "wordpress_root" {
 
 resource "kubernetes_persistent_volume_claim_v1" "wordpress_root" {
   metadata {
-    name      = "${var.release-name}-wordpress-root-claim"
+    name      = "${var.release_name}-wordpress-root-claim"
     namespace = kubernetes_namespace_v1.this.metadata[0].name
   }
   spec {
-    storage_class_name = var.amazon-ebs-class
+    storage_class_name = var.amazon_ebs_class
     access_modes       = ["ReadWriteOnce"]
     resources {
       requests = {
@@ -81,13 +81,13 @@ resource "kubernetes_persistent_volume_claim_v1" "wordpress_root" {
 
 resource "kubernetes_persistent_volume_v1" "wordpress_maria" {
   metadata {
-    name = "${var.release-name}-wordpress-maria"
+    name = "${var.release_name}-wordpress-maria"
     labels = {
       type = "amazonEBS"
     }
   }
   spec {
-    storage_class_name = var.amazon-ebs-class
+    storage_class_name = var.amazon_ebs_class
     capacity = {
       storage = "1Gi"
     }
@@ -103,11 +103,11 @@ resource "kubernetes_persistent_volume_v1" "wordpress_maria" {
 
 resource "kubernetes_persistent_volume_claim_v1" "wordpress_maria" {
   metadata {
-    name      = "${var.release-name}-wordpress-maria-claim"
+    name      = "${var.release_name}-wordpress-maria-claim"
     namespace = kubernetes_namespace_v1.this.metadata[0].name
   }
   spec {
-    storage_class_name = var.amazon-ebs-class
+    storage_class_name = var.amazon_ebs_class
     access_modes       = ["ReadWriteOnce"]
     resources {
       requests = {
@@ -120,13 +120,13 @@ resource "kubernetes_persistent_volume_claim_v1" "wordpress_maria" {
 
 resource "kubernetes_persistent_volume_v1" "wordpress_uploads" {
   metadata {
-    name = "${var.release-name}-wordpress-uploads"
+    name = "${var.release_name}-wordpress-uploads"
     labels = {
       type = "amazonEBS"
     }
   }
   spec {
-    storage_class_name = var.amazon-ebs-class
+    storage_class_name = var.amazon_ebs_class
     capacity = {
       storage = "24Gi"
     }
@@ -142,11 +142,11 @@ resource "kubernetes_persistent_volume_v1" "wordpress_uploads" {
 
 resource "kubernetes_persistent_volume_claim_v1" "wordpress_uploads" {
   metadata {
-    name      = "${var.release-name}-wordpress-uploads-claim"
+    name      = "${var.release_name}-wordpress-uploads-claim"
     namespace = kubernetes_namespace_v1.this.metadata[0].name
   }
   spec {
-    storage_class_name = var.amazon-ebs-class
+    storage_class_name = var.amazon_ebs_class
     access_modes       = ["ReadWriteOnce"]
     resources {
       requests = {

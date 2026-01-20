@@ -1,5 +1,5 @@
 data "aws_secretsmanager_secret" "wordpress" {
-  arn = var.wordpress-credentials-arn
+  arn = var.wordpress_credentials_arn
 }
 
 data "aws_secretsmanager_secret_version" "wordpress_current" {
@@ -7,7 +7,7 @@ data "aws_secretsmanager_secret_version" "wordpress_current" {
 }
 
 data "aws_secretsmanager_secret" "s3_access" {
-  arn = var.cdn-s3-user-secret-arn
+  arn = var.cdn_s3_user_secret_arn
 }
 
 data "aws_secretsmanager_secret_version" "s3_access_current" {

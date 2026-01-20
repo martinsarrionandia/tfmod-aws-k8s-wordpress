@@ -7,62 +7,62 @@ variable "hostname" {
   default = null
 }
 
-variable "release-name" {
+variable "release_name" {
   type = string
 }
 
-variable "release-repo" {
+variable "release_repo" {
   type    = string
   default = "oci://registry-1.docker.io/bitnamicharts"
 }
 
-variable "release-chart" {
+variable "release_chart" {
   type    = string
   default = "wordpress"
 }
 
-variable "release-version" {
+variable "release_version" {
   type    = string
   default = "latest"
 }
 
-variable "cdn-bucket-name" {
+variable "cdn_bucket_name" {
   type = string
 }
 
-variable "amazon-ebs-class" {
+variable "amazon_ebs_class" {
   type = string
 }
 
-variable "cluster-issuer" {
+variable "cluster_issuer" {
   type = string
 }
 
-variable "public-ip" {
+variable "public_ip" {
   type = string
 }
 
-variable "ebs-volname-wordpress-root" {
+variable "ebs_volname_wordpress_root" {
   type = string
 }
 
-variable "ebs-volname-wordpress-mariadb" {
+variable "ebs_volname_wordpress_mariadb" {
   type = string
 }
 
-variable "ebs-volname-wordpress-uploads" {
+variable "ebs_volname_wordpress_uploads" {
   type = string
 }
 
-variable "wordpress-credentials-arn" {
+variable "wordpress_credentials_arn" {
   type = string
 }
 
-variable "cdn-s3-user-secret-arn" {
+variable "cdn_s3_user_secret_arn" {
   type = string
 }
 
-variable "initial-setup" {
+variable "initial_setup" {
   type    = bool
   default = "true"
 }
@@ -77,17 +77,17 @@ variable "diagnostic" {
   default = "false"
 }
 
-variable "wordpress-uploads-dir" {
+variable "wordpress_uploads_dir" {
   type    = string
   default = "wp-content/uploads"
 }
 
-variable "additional-middlewares-map" {
+variable "additional_middlewares_map" {
   type    = list(map(string))
   default = []
 }
 
-variable "additional-middlewares" {
+variable "additional_middlewares" {
   type    = list(string)
   default = []
 }

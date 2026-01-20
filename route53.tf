@@ -9,5 +9,5 @@ resource "aws_route53_record" "this" {
   name    = local.fqdn
   type    = "A"
   ttl     = "300"
-  records = [var.public-ip]
+  records = [var.public_ip]
 }

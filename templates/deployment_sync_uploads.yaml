@@ -5,7 +5,7 @@ metadata:
   namespace: "${namespace}"
   labels:
     app: sync-uploads
-    app.kubernetes.io/instance: "${release-name}"
+    app.kubernetes.io/instance: "${release_name}"
     app.kubernetes.io/name: sync-uploads
 spec:
   replicas: 1
@@ -16,7 +16,7 @@ spec:
     metadata:
       labels:
         app: sync-uploads
-        app.kubernetes.io/instance: "${release-name}"
+        app.kubernetes.io/instance: "${release_name}"
         app.kubernetes.io/name: sync-uploads
     spec:
       securityContext:
@@ -28,7 +28,7 @@ spec:
           command: ["sh", "-c"]
           args:
           - |
-            mc alias set s3 https://s3.${s3-region}.amazonaws.com:443 "${aws_access_key_id}" "${aws_secret_access_key}"
+            mc alias set s3 https://s3.${s3_region}.amazonaws.com:443 "${aws_access_key_id}" "${aws_secret_access_key}"
             mc mirror --quiet --overwrite --watch /uploads/ s3/"${s3-uploads-path}"
           env:
           - name: AWS_ACCESS_KEY_ID

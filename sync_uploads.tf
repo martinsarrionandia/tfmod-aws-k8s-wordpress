@@ -1,10 +1,10 @@
 resource "kubernetes_manifest" "sync_uploads" {
-  count    = var.initial-setup == true ? 0 : 1
-  manifest = yamldecode(local.sync-uploads-manifest)
+  count    = var.initial_setup == true ? 0 : 1
+  manifest = yamldecode(local.sync_uploads_manifest)
 }
 
 locals {
-  sync-uploads-manifest = <<YAML
+  sync_uploads_manifest = <<YAML
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,7 +12,7 @@ metadata:
   namespace: "${kubernetes_namespace_v1.this.metadata[0].name}"
   labels:
     app: sync-uploads
-    app.kubernetes.io/instance: "${var.release-name}"
+    app.kubernetes.io/instance: "${var.release_name}"
     app.kubernetes.io/name: sync-uploads
 spec:
   replicas: 1
@@ -23,7 +23,7 @@ spec:
     metadata:
       labels:
         app: sync-uploads
-        app.kubernetes.io/instance: "${var.release-name}"
+        app.kubernetes.io/instance: "${var.release_name}"
         app.kubernetes.io/name: sync-uploads
     spec:
       securityContext:
@@ -35,8 +35,8 @@ spec:
           command: ["sh", "-c"]
           args:
           - |
-            mc alias set s3 https://s3.${local.s3-region}.amazonaws.com:443 "${local.aws_access_key_id}" "${local.aws_secret_access_key}"
-            mc mirror --quiet --overwrite --watch /uploads/ s3/"${local.s3-cdn-wordpresss-uploads-path}"
+            mc alias set s3 https://s3.${local.s3_region}.amazonaws.com:443 "${local.aws_access_key_id}" "${local.aws_secret_access_key}"
+            mc mirror --quiet --overwrite --watch /uploads/ s3/"${local.s3_cdn_wordpresss_uploads_path}"
           env:
           - name: AWS_ACCESS_KEY_ID
             value: "${local.aws_access_key_id}"

@@ -1,10 +1,10 @@
 resource "helm_release" "wordpress" {
   namespace  = kubernetes_namespace_v1.this.metadata[0].name
-  name       = var.release-name
-  repository = var.release-repo
-  chart      = var.release-chart
-  version    = var.release-version == "latest" ? null : var.release-version
-  values     = [local.wordpress-helm-values]
+  name       = var.release_name
+  repository = var.release_repo
+  chart      = var.release_chart
+  version    = var.release_version == "latest" ? null : var.release_version
+  values     = [local.wordpress_helm_values]
 
   set = concat([{
     name  = "replicaCount"
@@ -21,7 +21,7 @@ resource "helm_release" "wordpress" {
     },
     {
       name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/target"
-      value = yamlencode(var.public-ip)
+      value = yamlencode(var.public_ip)
       type  = "string"
     },
     {
@@ -53,16 +53,16 @@ resource "helm_release" "wordpress" {
     },
     {
       name = "extraVolumeMounts"
-      value = var.initial-setup == true ? "" : yamlencode([
+      value = var.initial_setup == true ? "" : yamlencode([
         {
           "name" : "uploads",
-          "mountPath" : "/bitnami/wordpress/${var.wordpress-uploads-dir}"
+          "mountPath" : "/bitnami/wordpress/${var.wordpress_uploads_dir}"
         }
       ])
     },
     {
       name  = "volumePermissions.enabled"
-      value = var.initial-setup
+      value = var.initial_setup
     },
     {
       name  = "wordpressUsername"
@@ -107,7 +107,7 @@ resource "helm_release" "wordpress" {
 
 locals {
 
-  wordpress-helm-values = <<EOF
+  wordpress_helm_values = <<EOF
 containerSecurityContext:
   seLinuxOptions:
     level: ${local.selinux-level}
@@ -128,8 +128,8 @@ wordpressExtraConfigContent: |
 
   /* SET HOSTNAME TO AVOID CONTAINER IP AS THE HOSTNAME WHEN RUNNING CRON */
 
-  define('WP_HOME', '${local.fqdn}');
-  define('WP_SITEURL', '${local.fqdn}');
+  define('WP_HOME', 'https://${local.fqdn}');
+  define('WP_SITEURL', 'https://${local.fqdn}');
 
   /* FIX LEGACY PLUGINS THAT SERVE HTTP URLS */
 

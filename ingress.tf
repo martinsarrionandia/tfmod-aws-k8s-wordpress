@@ -1,4 +1,4 @@
-resource "kubernetes_manifest" "this-ingress" {
+resource "kubernetes_manifest" "this_ingress" {
   manifest = {
     apiVersion = "networking.k8s.io/v1"
     kind       = "Ingress"
@@ -6,14 +6,14 @@ resource "kubernetes_manifest" "this-ingress" {
       annotations = {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
         "external-dns.alpha.kubernetes.io/hostname"        = local.fqdn
-        "external-dns.alpha.kubernetes.io/target"          = var.public-ip
-        "cert-manager.io/cluster-issuer"                   = var.cluster-issuer
+        "external-dns.alpha.kubernetes.io/target"          = var.public_ip
+        "cert-manager.io/cluster_issuer"                   = var.cluster_issuer
         "traefik.ingress.kubernetes.io/router.middlewares" = local.middlewares
       }
       labels = {
-        app = var.release-chart
+        app = var.release_chart
       }
-      name      = var.release-name
+      name      = var.release_name
       namespace = kubernetes_namespace_v1.this.metadata[0].name
     }
     spec = {
@@ -25,7 +25,7 @@ resource "kubernetes_manifest" "this-ingress" {
               {
                 backend = {
                   service = {
-                    name = "${var.release-name}-${var.release-chart}"
+                    name = "${var.release_name}-${var.release_chart}"
                     port = {
                       number = 80
                     }
@@ -43,7 +43,7 @@ resource "kubernetes_manifest" "this-ingress" {
           hosts = [
             local.fqdn,
           ]
-          secretName = var.cluster-issuer
+          secretName = var.cluster_issuer
         },
       ]
     }

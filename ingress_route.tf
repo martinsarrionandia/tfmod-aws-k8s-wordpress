@@ -1,18 +1,18 @@
-resource "kubernetes_manifest" "this-ingress-route" {
-  manifest = yamldecode(local.ingress-route-manifest)
+resource "kubernetes_manifest" "this_ingress_route" {
+  manifest = yamldecode(local.ingress_route_manifest)
   count    = 0
 }
 
 locals {
 
-  ingress-route-manifest = <<EOF
+  ingress_route_manifest = <<EOF
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ${var.release-name}
+  name: ${var.release_name}
   namespace: "${kubernetes_namespace_v1.this.metadata[0].name}"
   annotations:
-    cert-manager.io/cluster-issuer: "${var.cluster-issuer}"
+    cert-manager.io/cluster_issuer: "${var.cluster_issuer}"
 spec:
   entryPoints:
     - web
@@ -22,15 +22,15 @@ spec:
       match: Host(`${local.fqdn}`) && PathPrefix(`/`)
       priority: 10
       middlewares:
-        - name: "${local.middleware-cdn-rewrite-name}"
+        - name: "${local.middleware_cdn_rewrite_name}"
           namespace: "${kubernetes_namespace_v1.this.metadata[0].name}"
-        %{for middleware in var.additional-middlewares-map}
+        %{for middleware in var.additional_middlewares_map}
         - name: ${middleware.name}@kubernetescrd
           namespace: ${middleware.namespace}
         %{endfor}
       services:
       - kind: Service
-        name: ${var.release-name}-${var.release-chart}
+        name: ${var.release_name}-${var.release_chart}
         namespace: ${kubernetes_namespace_v1.this.metadata[0].name}
         #passHostHeader: true
         port: 80
@@ -43,7 +43,7 @@ spec:
     #options:
     #  name:
     #  namespace: default
-    certResolver: "${var.cluster-issuer}"
+    certResolver: "${var.cluster_issuer}"
     domains:
       - main: ${local.fqdn}
 

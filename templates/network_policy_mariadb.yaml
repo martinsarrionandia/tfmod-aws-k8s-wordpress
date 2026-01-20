@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   annotations:
-  name: "${release-name}-mariadb"
+  name: "${release_name}-mariadb"
   namespace: "${namespace}"
 spec:
   ingress:
@@ -12,20 +12,20 @@ spec:
               - key: app.kubernetes.io/instance
                 operator: In
                 values:
-                  - "${release-name}"
+                  - "${release_name}"
               - key: app.kubernetes.io/name
                 operator: In
                 values:
                   - wordpress
             matchLabels:
-              app.kubernetes.io/instance: "${release-name}"
+              app.kubernetes.io/instance: "${release_name}"
               app.kubernetes.io/name: wordpress
       ports:
         - port: 3306
           protocol: TCP
   podSelector:
     matchLabels:
-      app.kubernetes.io/instance: "${release-name}"
+      app.kubernetes.io/instance: "${release_name}"
       app.kubernetes.io/name: mariadb
   policyTypes:
     - Ingress

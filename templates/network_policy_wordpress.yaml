@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: "${release-name}-wordpress"
+  name: "${release_name}-wordpress"
   namespace: "${namespace}"
 spec:
   egress:
@@ -36,13 +36,13 @@ spec:
               - key: app.kubernetes.io/instance
                 operator: In
                 values:
-                  - "${release-name}"
+                  - "${release_name}"
               - key: app.kubernetes.io/name
                 operator: In
                 values:
                   - mariadb
             matchLabels:
-              app.kubernetes.io/instance: "${release-name}"
+              app.kubernetes.io/instance: "${release_name}"
               app.kubernetes.io/name: mariadb
     - ports:
         - port: 587
@@ -81,7 +81,7 @@ spec:
           protocol: TCP
   podSelector:
     matchLabels:
-      app.kubernetes.io/instance: "${release-name}"
+      app.kubernetes.io/instance: "${release_name}"
       app.kubernetes.io/name: wordpress
   policyTypes:
     - Ingress

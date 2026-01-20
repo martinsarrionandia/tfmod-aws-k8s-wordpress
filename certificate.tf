@@ -1,11 +1,11 @@
 resource "kubernetes_manifest" "this_certificate" {
-  manifest = yamldecode(local.certificate-manifest)
+  manifest = yamldecode(local.certificate_manifest)
   count    = 0
 }
 
 locals {
 
-  certificate-manifest = <<EOF
+  certificate_manifest = <<EOF
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -15,7 +15,7 @@ spec:
   secretName: "${local.fqdn}-secret"
   commonName: ${local.fqdn}
   issuerRef:
-    name: ${var.cluster-issuer}
+    name: ${var.cluster_issuer}
     kind: ClusterIssuer
   dnsNames:
     - ${local.fqdn}
