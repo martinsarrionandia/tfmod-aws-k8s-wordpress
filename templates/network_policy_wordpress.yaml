@@ -45,8 +45,6 @@ spec:
               app.kubernetes.io/instance: "${release-name}"
               app.kubernetes.io/name: mariadb
     - ports:
-        - port: 443
-          protocol: TCP
         - port: 587
           protocol: TCP
       to:
