@@ -20,5 +20,6 @@ locals {
   #Escaped twice for double the pleasure. \\\\ Equals one \ in middleware
   uploads_url_regex      = replace(local.uploads_url, ".", "\\\\.")
   uploads_url_json_regex = replace(local.uploads_url_regex, "/", "\\\\\\\\/")
-  http_proxy_port        = trimprefix(regex(":\\d+$", var.http_proxy_address), ":")
+  http_proxy_host        = split(":", var.http_proxy_address)[0]
+  http_proxy_port        = split(":", var.http_proxy_address)[1]
 }
