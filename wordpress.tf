@@ -124,6 +124,11 @@ mariadb:
     resources:
       requests:
         cpu: 25m
+extraEnvVars:
+  - name: PHP_UPLOAD_MAX_FILESIZE
+    value: "${var.php_max_upload}"
+  - name: PHP_POST_MAX_SIZE
+    value: "${var.php_max_upload}"
 wordpressExtraConfigContent: |
 
   /* SET HOSTNAME TO AVOID CONTAINER IP AS THE HOSTNAME WHEN RUNNING CRON */

@@ -109,3 +109,8 @@ variable "http_proxy_namespace" {
 variable "http_proxy_address" {
   type = string
 }
+
+variable "php_max_upload" {
+  type    = string
+  default = "512M"
+}
