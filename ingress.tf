@@ -60,6 +60,7 @@ resource "kubernetes_manifest" "this_ingress_wpadmin" {
       annotations = {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
         "cert-manager.io/cluster_issuer"                   = var.cluster_issuer
+        "traefik.ingress.kubernetes.io/router.middlewares" = local.wpadmin_middlewares
         "traefik.ingress.kubernetes.io/router.priority"    = "20"
       }
       labels = {
