@@ -8,3 +8,7 @@ data "aws_prefix_list" "s3_prefix_list" {
 data "aws_s3_bucket" "cdn_bucket" {
   bucket = var.cdn_bucket_name
 }
+
+data "http" "my_current_ip" {
+  url = "http://ipv4.icanhazip.com"
+}

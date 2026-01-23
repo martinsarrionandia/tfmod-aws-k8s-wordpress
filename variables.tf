@@ -92,6 +92,11 @@ variable "additional_middlewares" {
   default = []
 }
 
+variable "ip_allowlist" {
+  type    = list(string)
+  default = []
+}
+
 variable "docker_legacy_repo" {
   description = "Use docker legacy repo"
   type        = bool

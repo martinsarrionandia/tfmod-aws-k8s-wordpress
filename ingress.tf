@@ -8,7 +8,7 @@ resource "kubernetes_manifest" "this_ingress_wordpress" {
         "external-dns.alpha.kubernetes.io/hostname"        = local.fqdn
         "external-dns.alpha.kubernetes.io/target"          = var.public_ip
         "cert-manager.io/cluster_issuer"                   = var.cluster_issuer
-        "traefik.ingress.kubernetes.io/router.middlewares" = local.middlewares
+        "traefik.ingress.kubernetes.io/router.middlewares" = local.wordpress_middlewares
         "traefik.ingress.kubernetes.io/router.priority"    = "10"
       }
       labels = {
