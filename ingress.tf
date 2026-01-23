@@ -102,6 +102,7 @@ resource "kubernetes_manifest" "this_ingress_ajax" {
     metadata = {
       annotations = {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
+        "traefik.ingress.kubernetes.io/router.middlewares" = local.ajax_middlewares
         "traefik.ingress.kubernetes.io/router.priority"    = "30"
         "external-dns.alpha.kubernetes.io/controller"      = "ignore"
       }
