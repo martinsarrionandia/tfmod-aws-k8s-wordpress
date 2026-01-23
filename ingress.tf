@@ -61,6 +61,7 @@ resource "kubernetes_manifest" "this_ingress_wpadmin" {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
         "traefik.ingress.kubernetes.io/router.middlewares" = local.wpadmin_middlewares
         "traefik.ingress.kubernetes.io/router.priority"    = "20"
+        "external-dns.alpha.kubernetes.io/controller"      = "ignore"
       }
       labels = {
         app = var.release_chart
@@ -102,6 +103,7 @@ resource "kubernetes_manifest" "this_ingress_ajax" {
       annotations = {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
         "traefik.ingress.kubernetes.io/router.priority"    = "30"
+        "external-dns.alpha.kubernetes.io/controller"      = "ignore"
       }
       labels = {
         app = var.release_chart
