@@ -7,7 +7,7 @@ resource "kubernetes_manifest" "this_ingress_wordpress" {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
         "external-dns.alpha.kubernetes.io/hostname"        = local.fqdn
         "external-dns.alpha.kubernetes.io/target"          = var.public_ip
-        "cert-manager.io/cluster_issuer"                   = var.cluster_issuer
+        "cert-manager.io/cluster-issuer"                   = var.cluster_issuer
         "traefik.ingress.kubernetes.io/router.middlewares" = local.wordpress_middlewares
         "traefik.ingress.kubernetes.io/router.priority"    = "10"
       }
@@ -60,7 +60,6 @@ resource "kubernetes_manifest" "this_ingress_wpadmin" {
       annotations = {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
         "external-dns.alpha.kubernetes.io/target"          = var.public_ip
-        "cert-manager.io/cluster_issuer"                   = var.cluster_issuer
         "traefik.ingress.kubernetes.io/router.middlewares" = local.wpadmin_middlewares
         "traefik.ingress.kubernetes.io/router.priority"    = "20"
       }
@@ -92,14 +91,6 @@ resource "kubernetes_manifest" "this_ingress_wpadmin" {
           }
         },
       ]
-      tls = [
-        {
-          hosts = [
-            local.fqdn,
-          ]
-          secretName = "${var.release_name}-${var.cluster_issuer}"
-        },
-      ]
     }
   }
 }
@@ -112,7 +103,6 @@ resource "kubernetes_manifest" "this_ingress_ajax" {
       annotations = {
         "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
         "external-dns.alpha.kubernetes.io/target"          = var.public_ip
-        "cert-manager.io/cluster_issuer"                   = var.cluster_issuer
         "traefik.ingress.kubernetes.io/router.priority"    = "30"
       }
       labels = {
@@ -141,14 +131,6 @@ resource "kubernetes_manifest" "this_ingress_ajax" {
               },
             ]
           }
-        },
-      ]
-      tls = [
-        {
-          hosts = [
-            local.fqdn,
-          ]
-          secretName = "${var.release_name}-${var.cluster_issuer}"
         },
       ]
     }
