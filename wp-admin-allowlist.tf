@@ -10,7 +10,7 @@ locals {
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  namespace: kubernetes_namespace_v1.this.metadata[0].name
+  namespace: ${kubernetes_namespace_v1.this.metadata[0].name}
   name: ${local.middleware_wpadmin_ipallowlist_name}
 spec:
   ipAllowList:
