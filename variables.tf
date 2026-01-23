@@ -92,7 +92,7 @@ variable "additional_middlewares" {
   default = []
 }
 
-variable "ip_allowlist" {
+variable "wpadmin_ip_allowlist" {
   type    = list(string)
   default = []
 }

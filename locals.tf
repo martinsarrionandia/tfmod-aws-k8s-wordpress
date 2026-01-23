@@ -35,7 +35,7 @@ locals {
   http_proxy_port        = split(":", var.http_proxy_address)[1]
 
   ip_allowlist = setunion(
-    var.ip_allowlist,
+    var.wpadmin_ip_allowlist,
     ["${chomp(data.http.my_current_ip.response_body)}/32"]
   )
 }
