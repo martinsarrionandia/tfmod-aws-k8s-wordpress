@@ -44,7 +44,7 @@ resource "kubernetes_manifest" "this_ingress_wordpress" {
           hosts = [
             local.fqdn,
           ]
-          secretName = var.cluster_issuer
+          secretName = "${var.release_name}-${var.cluster_issuer}"
         },
       ]
     }
@@ -97,7 +97,7 @@ resource "kubernetes_manifest" "this_ingress_wpadmin" {
           hosts = [
             local.fqdn,
           ]
-          secretName = var.cluster_issuer
+          secretName = "${var.release_name}-${var.cluster_issuer}"
         },
       ]
     }
@@ -148,7 +148,7 @@ resource "kubernetes_manifest" "this_ingress_ajax" {
           hosts = [
             local.fqdn,
           ]
-          secretName = var.cluster_issuer
+          secretName = "${var.release_name}-${var.cluster_issuer}"
         },
       ]
     }
