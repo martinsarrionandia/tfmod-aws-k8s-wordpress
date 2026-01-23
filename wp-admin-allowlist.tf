@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "middleware_wpadmin_ipallowlist" {
-  manifest = yamldecode(wpadmin_ipallowlist_middleware_manifest)
+  manifest = yamldecode(local.wpadmin_ipallowlist_middleware_manifest)
   field_manager {
     force_conflicts = true
   }
