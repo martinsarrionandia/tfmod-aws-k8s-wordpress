@@ -70,6 +70,12 @@ spec:
                   - ${http_proxy_app}
             matchLabels:
               app: ${http_proxy_app}
+    - ports:
+        - port: 443
+          protocol: TCP
+      to:
+        - ipBlock:
+            cidr: ${public_ip}/32
   ingress:
     - from:
         - ipBlock:

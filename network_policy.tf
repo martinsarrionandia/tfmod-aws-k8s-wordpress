@@ -6,6 +6,7 @@ resource "kubernetes_manifest" "wordpress_network_policy" {
       http_proxy_app       = var.http_proxy_app
       http_proxy_namespace = var.http_proxy_namespace
       http_proxy_port      = local.http_proxy_port
+      public_ip            = var.public_ip
   }))
 }
 
