@@ -96,6 +96,7 @@ resource "kubernetes_manifest" "this_ingress_wpadmin" {
 }
 
 resource "kubernetes_manifest" "this_ingress_ajax" {
+  count = 0
   manifest = {
     apiVersion = "networking.k8s.io/v1"
     kind       = "Ingress"
@@ -137,3 +138,44 @@ resource "kubernetes_manifest" "this_ingress_ajax" {
     }
   }
 }
+
+resource "kubernetes_manifest" "this_ingressroute_ajax" {
+  manifest = {
+    apiVersion = "traefik.io/v1alpha1"
+    kind       = "IngressRoute"
+    metadata = {
+      annotations = {
+        "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
+        "traefik.ingress.kubernetes.io/router.priority"    = "30"
+        "external-dns.alpha.kubernetes.io/controller"      = "ignore"
+      }
+      labels = {
+        app = var.release_chart
+      }
+      name      = "${var.release_name}-ajax"
+      namespace = kubernetes_namespace_v1.this.metadata[0].name
+    }
+
+    spec = {
+      entryPoints = ["websecure"]
+
+      routes = [
+        {
+          kind     = "Rule"
+          match    = "Host(`${local.fqdn}`) && Path(`/wp-admin/admin-ajax.php`) && !HeadersRegexp(`User-Agent`, `(WordPress|Elementor)`)"
+          priority = 30
+
+          middlewares = local.ajax_middlewares
+
+          services = [
+            {
+              name = "${var.release_name}-${var.release_chart}"
+              port = 80
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+

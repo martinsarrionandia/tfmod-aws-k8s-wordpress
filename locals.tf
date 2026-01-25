@@ -25,7 +25,14 @@ locals {
 
   wordpress_middlewares = join(", ", concat([local.middleware_cache_control], [local.middleware_cdn_rewrite], var.additional_middlewares))
   wpadmin_middlewares   = join(", ", concat([local.middleware_wpadmin_ipallowlist], var.additional_middlewares))
-  ajax_middlewares      = join(", ", concat([local.middleware_cdn_rewrite], var.additional_middlewares))
+  ajax_middlewares = [
+    for middleware in concat(
+      [local.middleware_cdn_rewrite],
+      var.additional_middlewares
+      ) : {
+      name = middleware
+    }
+  ]
 
   aws_access_key_id     = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_access_key_id"]
   aws_secret_access_key = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_secret_access_key"]
@@ -37,7 +44,8 @@ locals {
   http_proxy_port        = split(":", var.http_proxy_address)[1]
 
   ip_allowlist = setunion(
-    var.wpadmin_ip_allowlist,
-    ["${chomp(data.http.my_current_ip.response_body)}/32"]
+    toset([var.public_ip]),
+    toset(var.wpadmin_ip_allowlist),
+    toset(["${chomp(data.http.my_current_ip.response_body)}/32"])
   )
 }
