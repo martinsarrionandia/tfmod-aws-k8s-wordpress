@@ -162,7 +162,7 @@ resource "kubernetes_manifest" "this_ingressroute_ajax" {
       routes = [
         {
           kind     = "Rule"
-          match    = "Host(`${local.fqdn}`) && Path(`/wp-admin/admin-ajax.php`) && !HeadersRegexp(`User-Agent`, `(WordPress|Elementor)`)"
+          match    = "!ClientIP(`${var.public_ip}/32`) && Path(`/wp-admin/admin-ajax.php`)"
           priority = 30
 
           middlewares = local.ajax_middlewares
