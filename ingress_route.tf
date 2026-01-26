@@ -24,7 +24,7 @@ spec:
       middlewares:
         - name: "${local.middleware_cdn_rewrite_name}"
           namespace: "${kubernetes_namespace_v1.this.metadata[0].name}"
-        %{for middleware in var.additional_middlewares_map}
+        %{for middleware in var.additional_middlewares_maps}
         - name: ${middleware.name}@kubernetescrd
           namespace: ${middleware.namespace}
         %{endfor}

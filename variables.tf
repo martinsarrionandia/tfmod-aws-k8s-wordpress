@@ -82,7 +82,7 @@ variable "wordpress_uploads_dir" {
   default = "wp-content/uploads"
 }
 
-variable "additional_middlewares_map" {
+variable "additional_middlewares_maps" {
   type    = list(map(string))
   default = []
 }

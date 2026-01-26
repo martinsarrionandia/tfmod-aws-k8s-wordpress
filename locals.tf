@@ -25,16 +25,16 @@ locals {
 
   wordpress_middlewares = join(", ", concat([local.middleware_cache_control], [local.middleware_cdn_rewrite], var.additional_middlewares))
   wpadmin_middlewares   = join(", ", concat([local.middleware_wpadmin_ipallowlist], var.additional_middlewares))
-  ajax_middlewares = [
-    {
-      name      = local.middleware_cdn_rewrite_name
-      namespace = kubernetes_namespace_v1.this.metadata[0].name
-    },
-    {
-      name      = "bouncer"
-      namespace = "traefik"
-    }
-  ]
+  ajax_middlewares = concat(
+    [
+      {
+        name      = local.middleware_cdn_rewrite_name
+        namespace = kubernetes_namespace_v1.this.metadata[0].name
+      }
+    ],
+    var.additional_middlewares_maps
+  )
+
 
   aws_access_key_id     = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_access_key_id"]
   aws_secret_access_key = jsondecode(data.aws_secretsmanager_secret_version.s3_access_current.secret_string)["aws_secret_access_key"]
