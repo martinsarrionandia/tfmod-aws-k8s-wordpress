@@ -26,11 +26,13 @@ locals {
   wordpress_middlewares = join(", ", concat([local.middleware_cache_control], [local.middleware_cdn_rewrite], var.additional_middlewares))
   wpadmin_middlewares   = join(", ", concat([local.middleware_wpadmin_ipallowlist], var.additional_middlewares))
   ajax_middlewares = [
-    for middleware in concat(
-      [local.middleware_cdn_rewrite],
-      var.additional_middlewares
-      ) : {
-      name = middleware
+    {
+      name      = local.middleware_cdn_rewrite_name
+      namespace = kubernetes_namespace_v1.this.metadata[0].name
+    },
+    {
+      name      = bouncer
+      namespace = traefik
     }
   ]
 
