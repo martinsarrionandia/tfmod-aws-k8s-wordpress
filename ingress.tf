@@ -1,15 +1,11 @@
-resource "kubernetes_manifest" "this_ingress_wordpress" {
+resource "kubernetes_manifest" "this_ingressroute_wordpress" {
   manifest = {
-    apiVersion = "networking.k8s.io/v1"
-    kind       = "Ingress"
+    apiVersion = "traefik.io/v1alpha1"
+    kind       = "IngressRoute"
     metadata = {
       annotations = {
-        "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-        "external-dns.alpha.kubernetes.io/hostname"        = local.fqdn
-        "external-dns.alpha.kubernetes.io/target"          = var.public_ip
-        "cert-manager.io/cluster-issuer"                   = var.cluster_issuer
-        "traefik.ingress.kubernetes.io/router.middlewares" = local.wordpress_middlewares
-        "traefik.ingress.kubernetes.io/router.priority"    = "10"
+        "external-dns.alpha.kubernetes.io/hostname" = local.fqdn
+        "external-dns.alpha.kubernetes.io/target"   = var.public_ip
       }
       labels = {
         app = var.release_chart
@@ -17,51 +13,54 @@ resource "kubernetes_manifest" "this_ingress_wordpress" {
       name      = "${var.release_name}-wordpress"
       namespace = kubernetes_namespace_v1.this.metadata[0].name
     }
+
     spec = {
-      rules = [
+      entryPoints = ["websecure"]
+
+      routes = [
         {
-          host = local.fqdn
-          http = {
-            paths = [
+          kind     = "Rule"
+          match    = "Host(`${local.fqdn}`) && PathPrefix(`/`)"
+          priority = 10
+
+          middlewares = concat(
+            [
               {
-                backend = {
-                  service = {
-                    name = "${var.release_name}-${var.release_chart}"
-                    port = {
-                      number = 80
-                    }
-                  }
-                }
-                path     = "/"
-                pathType = "Prefix"
+                name      = local.middleware_cache_control_name
+                namespace = kubernetes_namespace_v1.this.metadata[0].name
               },
-            ]
-          }
-        },
-      ]
-      tls = [
-        {
-          hosts = [
-            local.fqdn,
+              {
+                name      = local.middleware_cdn_rewrite_name
+                namespace = kubernetes_namespace_v1.this.metadata[0].name
+              }
+            ],
+            var.additional_middlewares_maps
+          )
+
+          services = [
+            {
+              name = "${var.release_name}-${var.release_chart}"
+              port = 80
+            }
           ]
-          secretName = "${var.release_name}-${var.cluster_issuer}"
-        },
+        }
       ]
+
+      tls = {
+        secretName = "${var.release_name}-${var.cluster_issuer}"
+      }
     }
   }
 }
 
 
-resource "kubernetes_manifest" "this_ingress_wpadmin" {
+resource "kubernetes_manifest" "this_ingressroute_wpadmin" {
   manifest = {
-    apiVersion = "networking.k8s.io/v1"
-    kind       = "Ingress"
+    apiVersion = "traefik.io/v1alpha1"
+    kind       = "IngressRoute"
     metadata = {
       annotations = {
-        "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-        "traefik.ingress.kubernetes.io/router.middlewares" = local.wpadmin_middlewares
-        "traefik.ingress.kubernetes.io/router.priority"    = "20"
-        "external-dns.alpha.kubernetes.io/controller"      = "ignore"
+        "external-dns.alpha.kubernetes.io/controller" = "ignore"
       }
       labels = {
         app = var.release_chart
@@ -69,75 +68,41 @@ resource "kubernetes_manifest" "this_ingress_wpadmin" {
       name      = "${var.release_name}-wpadmin"
       namespace = kubernetes_namespace_v1.this.metadata[0].name
     }
+
     spec = {
-      rules = [
+      entryPoints = ["websecure"]
+
+      routes = [
         {
-          host = local.fqdn
-          http = {
-            paths = [
+          kind     = "Rule"
+          match    = "Host(`${local.fqdn}`) && PathPrefix(`/wp-admin/`)"
+          priority = 20
+
+          middlewares = concat(
+            [
               {
-                backend = {
-                  service = {
-                    name = "${var.release_name}-${var.release_chart}"
-                    port = {
-                      number = 80
-                    }
-                  }
-                }
-                path     = "/wp-admin/"
-                pathType = "Prefix"
-              },
+                name      = local.middleware_wpadmin_ipallowlist_name
+                namespace = kubernetes_namespace_v1.this.metadata[0].name
+              }
             ]
-          }
-        },
+          )
+
+          services = [
+            {
+              name = "${var.release_name}-${var.release_chart}"
+              port = 80
+            }
+          ]
+
+        }
       ]
+      tls = {
+        secretName = "${var.release_name}-${var.cluster_issuer}"
+      }
     }
   }
 }
 
-resource "kubernetes_manifest" "this_ingress_ajax" {
-  count = 0
-  manifest = {
-    apiVersion = "networking.k8s.io/v1"
-    kind       = "Ingress"
-    metadata = {
-      annotations = {
-        "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-        "traefik.ingress.kubernetes.io/router.middlewares" = local.ajax_middlewares
-        "traefik.ingress.kubernetes.io/router.priority"    = "30"
-        "external-dns.alpha.kubernetes.io/controller"      = "ignore"
-      }
-      labels = {
-        app = var.release_chart
-      }
-      name      = "${var.release_name}-ajax"
-      namespace = kubernetes_namespace_v1.this.metadata[0].name
-    }
-    spec = {
-      rules = [
-        {
-          host = local.fqdn
-          http = {
-            paths = [
-              {
-                backend = {
-                  service = {
-                    name = "${var.release_name}-${var.release_chart}"
-                    port = {
-                      number = 80
-                    }
-                  }
-                }
-                path     = "/wp-admin/admin-ajax.php"
-                pathType = "Exact"
-              },
-            ]
-          }
-        },
-      ]
-    }
-  }
-}
 
 resource "kubernetes_manifest" "this_ingressroute_ajax" {
   manifest = {
@@ -145,9 +110,7 @@ resource "kubernetes_manifest" "this_ingressroute_ajax" {
     kind       = "IngressRoute"
     metadata = {
       annotations = {
-        "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-        "traefik.ingress.kubernetes.io/router.priority"    = "30"
-        "external-dns.alpha.kubernetes.io/controller"      = "ignore"
+        "external-dns.alpha.kubernetes.io/controller" = "ignore"
       }
       labels = {
         app = var.release_chart
@@ -165,7 +128,14 @@ resource "kubernetes_manifest" "this_ingressroute_ajax" {
           match    = "Host(`${local.fqdn}`) && !ClientIP(`${var.public_ip}`) && Path(`/wp-admin/admin-ajax.php`)"
           priority = 30
 
-          middlewares = local.ajax_middlewares
+          middlewares = concat(
+            [
+              {
+                name      = local.middleware_cdn_rewrite_name
+                namespace = kubernetes_namespace_v1.this.metadata[0].name
+              }
+            ],
+          var.additional_middlewares_maps)
 
           services = [
             {
@@ -173,8 +143,12 @@ resource "kubernetes_manifest" "this_ingressroute_ajax" {
               port = 80
             }
           ]
+
         }
       ]
+      tls = {
+        secretName = "${var.release_name}-${var.cluster_issuer}"
+      }
     }
   }
 }

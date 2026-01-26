@@ -149,8 +149,8 @@ wordpressExtraConfigContent: |
       $_SERVER['HTTPS'] = 'on';
   }
   
-  define('WP_PROXY_HOST', '${split(":", var.http_proxy_address)[0]}');
-  define('WP_PROXY_PORT', '${split(":", var.http_proxy_address)[1]}');
+  define('WP_PROXY_HOST', '${local.http_proxy_host}');
+  define('WP_PROXY_PORT', '${local.http_proxy.port}');
   define('WP_PROXY_BYPASS_HOSTS', 'localhost, 127.0.0.1, *.svc, *.cluster.local, 10.*, 172.16.*, 192.168.*, 172.16.*');
 
 EOF
