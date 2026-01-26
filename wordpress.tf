@@ -150,7 +150,7 @@ wordpressExtraConfigContent: |
   }
   
   define('WP_PROXY_HOST', '${local.http_proxy_host}');
-  define('WP_PROXY_PORT', '${local.http_proxy.port}');
+  define('WP_PROXY_PORT', '${local.http_proxy_port}');
   define('WP_PROXY_BYPASS_HOSTS', 'localhost, 127.0.0.1, *.svc, *.cluster.local, 10.*, 172.16.*, 192.168.*, 172.16.*');
 
 EOF
