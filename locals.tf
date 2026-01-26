@@ -31,8 +31,8 @@ locals {
       namespace = kubernetes_namespace_v1.this.metadata[0].name
     },
     {
-      name      = bouncer
-      namespace = traefik
+      name      = "bouncer"
+      namespace = "traefik"
     }
   ]
 
