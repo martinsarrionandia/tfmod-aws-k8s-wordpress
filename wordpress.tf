@@ -110,12 +110,12 @@ locals {
   wordpress_helm_values = <<EOF
 containerSecurityContext:
   seLinuxOptions:
-    level: ${local.selinux-level}
+    level: ${local.selinux_level}
 volumePermissions:
   image:
     containerSecurityContext:
       seLinuxOptions:
-        level: ${local.selinux-level}
+        level: ${local.selinux_level}
 resources:
   requests:
     cpu: 25m

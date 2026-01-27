@@ -23,6 +23,6 @@ resource "kubernetes_manifest" "sync_uploads_network_policy" {
     {
       release_name   = var.release_name,
       namespace      = kubernetes_namespace_v1.this.metadata[0].name
-      s3-prefix-list = data.aws_prefix_list.s3_prefix_list.cidr_blocks
+      s3_prefix_list = data.aws_prefix_list.s3_prefix_list.cidr_blocks
   }))
 }

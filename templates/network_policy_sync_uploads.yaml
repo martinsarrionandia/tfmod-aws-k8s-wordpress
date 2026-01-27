@@ -31,7 +31,7 @@ spec:
         - port: 443
           protocol: TCP
       to:
-%{ for i in s3-prefix-list ~}
+%{ for i in s3_prefix_list ~}
         - ipBlock:            
             cidr: ${i}
 %{ endfor ~}

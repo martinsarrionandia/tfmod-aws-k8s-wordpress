@@ -21,7 +21,7 @@ spec:
     spec:
       securityContext:
         seLinuxOptions:
-          level: "${selinux-level}"
+          level: "${selinux_level}"
       containers:
         - name: mc
           image: minio/mc:latest

@@ -7,10 +7,10 @@ locals {
   s3_region                      = data.aws_s3_bucket.cdn_bucket.region
   s3_cdn_wordpresss_uploads_path = "${var.cdn_bucket_name}/${var.wordpress_uploads_dir}"
 
-  # Generate selinux-level from release name and chart. Example format is s0:123:456 
+  # Generate selinux_level from release name and chart. Example format is s0:123:456 
   c1            = "c${substr(parseint(sha256(var.release_name), 16), 0, 3)}"
   c2            = "c${substr(parseint(sha256(var.release_chart), 16), 0, 3)}"
-  selinux-level = "s0:${local.c1},${local.c2}"
+  selinux_level = "s0:${local.c1},${local.c2}"
 
   middleware_cdn_rewrite_name         = "${var.release_name}-cdn-rewrite"
   middleware_cache_control_name       = "${var.release_name}-cache-control"
