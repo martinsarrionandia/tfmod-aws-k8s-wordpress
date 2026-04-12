@@ -75,7 +75,7 @@ resource "kubernetes_manifest" "this_ingressroute_wpadmin" {
       routes = [
         {
           kind     = "Rule"
-          match    = "Host(`${local.fqdn}`) && PathPrefix(`/wp-admin/`)"
+          match    = "Host(`${local.fqdn}`) && (PathPrefix(`/wp-admin/`) || PathPrefix(`/wp-json/`))"
           priority = 20
 
           middlewares = concat(

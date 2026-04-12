@@ -131,6 +131,8 @@ extraEnvVars:
     value: "${var.php_max_upload}"
 wordpressExtraConfigContent: |
 
+  define('WP_MEMORY_LIMIT', '256M');
+
   /* SET HOSTNAME TO AVOID CONTAINER IP AS THE HOSTNAME WHEN RUNNING CRON */
 
   define('WP_HOME', 'https://${local.fqdn}');
