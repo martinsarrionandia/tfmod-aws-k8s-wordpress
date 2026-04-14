@@ -21,6 +21,8 @@ spec:
           replacement: "https://${local.s3_cdn_wordpresss_uploads_path}/"
         - regex: "${local.uploads_url_json_regex}"
           replacement: "https://${local.s3_cdn_wordpresss_uploads_path}/"
+        - regex: "https://${local.s3_cdn_wordpresss_uploads_path}/elementor/"
+          replacement:  "${local.uploads_url_regex}/elementor/"
       logLevel: 0
       monitoring:
         methods:
