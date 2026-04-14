@@ -22,7 +22,7 @@ spec:
         - regex: "${local.uploads_url_json_regex}"
           replacement: "https://${local.s3_cdn_wordpresss_uploads_path}/"
         - regex: "https://${local.s3_cdn_wordpresss_uploads_path}/elementor/"
-          replacement:  "${local.uploads_url_regex}/elementor/"
+          replacement:  "https://${local.fqdn}/${var.wordpress_uploads_dir}/elementor/"
       logLevel: 0
       monitoring:
         methods:
