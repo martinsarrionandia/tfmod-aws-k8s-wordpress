@@ -21,7 +21,7 @@ resource "kubernetes_secret_v1" "sync_uploads_s3" {
   }
 
   data = {
-    MC_HOST_s3 = "https://${urlencode(local.aws_access_key_id)}:${urlencode(local.aws_secret_access_key)}@s3.${var.s3_region}.amazonaws.com:443"
+    MC_HOST_s3 = "https://${urlencode(local.aws_access_key_id)}:${urlencode(local.aws_secret_access_key)}@s3.${local.s3_region}.amazonaws.com:443"
   }
 
   type = "Opaque"
