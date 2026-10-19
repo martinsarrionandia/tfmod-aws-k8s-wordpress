@@ -39,7 +39,7 @@ spec:
             - --overwrite
             - --watch
             - /uploads/
-            - s3/"${local.s3_cdn_wordpresss_uploads_path}"
+            - "s3/${local.s3_cdn_wordpresss_uploads_path}"
           env:
             - name: MC_HOST_s3
               valueFrom:
