@@ -4,8 +4,8 @@ resource "kubernetes_manifest" "this_ingressroute_wordpress" {
     kind       = "IngressRoute"
     metadata = {
       annotations = {
-        "external-dns.alpha.kubernetes.io/hostname" = local.fqdn
-        "external-dns.alpha.kubernetes.io/target"   = var.public_ip
+        "external-dns.kubernetes.io/hostname" = local.fqdn
+        "external-dns.kubernetes.io/target"   = var.public_ip
       }
       labels = {
         app = var.release_chart
@@ -60,7 +60,7 @@ resource "kubernetes_manifest" "this_ingressroute_wpadmin" {
     kind       = "IngressRoute"
     metadata = {
       annotations = {
-        "external-dns.alpha.kubernetes.io/controller" = "ignore"
+        "external-dns.kubernetes.io/exclude" = "true"
       }
       labels = {
         app = var.release_chart
@@ -110,7 +110,7 @@ resource "kubernetes_manifest" "this_ingressroute_ajax" {
     kind       = "IngressRoute"
     metadata = {
       annotations = {
-        "external-dns.alpha.kubernetes.io/controller" = "ignore"
+        "external-dns.kubernetes.io/exclude" = "true"
       }
       labels = {
         app = var.release_chart
