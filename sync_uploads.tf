@@ -27,22 +27,25 @@ spec:
         app.kubernetes.io/name: sync-uploads
     spec:
       securityContext:
-        runAsUser: 1001
         seLinuxOptions:
           level: "${local.selinux_level}"
       containers:
         - name: mc
-          image: chainguard/minio-client:latest-dev
-          command: ["sh", "-c"]
+          image: pgsty/mc:latest
+          command: ["/usr/bin/mc"]
           args:
-          - |
-            mc alias set s3 https://s3.${local.s3_region}.amazonaws.com:443 "${local.aws_access_key_id}" "${local.aws_secret_access_key}"
-            mc mirror --quiet --overwrite --watch /uploads/ s3/"${local.s3_cdn_wordpresss_uploads_path}"
+            - mirror
+            - --quiet
+            - --overwrite
+            - --watch
+            - /uploads/
+            - s3/"${local.s3_cdn_wordpresss_uploads_path}"
           env:
-          - name: AWS_ACCESS_KEY_ID
-            value: "${local.aws_access_key_id}"
-          - name: AWS_SECRET_ACCESS_KEY
-            value: "${local.aws_secret_access_key}"
+            - name: MC_HOST_s3
+              valueFrom:
+                secretKeyRef:
+                  name: "${kubernetes_secret_v1.sync_uploads_s3.metadata[0].name}"
+                  key: MC_HOST_s3
           volumeMounts:
             - name: uploads
               mountPath: /uploads

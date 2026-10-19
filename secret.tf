@@ -13,3 +13,16 @@ data "aws_secretsmanager_secret" "s3_access" {
 data "aws_secretsmanager_secret_version" "s3_access_current" {
   secret_id = data.aws_secretsmanager_secret.s3_access.id
 }
+
+resource "kubernetes_secret_v1" "sync_uploads_s3" {
+  metadata {
+    name      = "sync-uploads-s3"
+    namespace = kubernetes_namespace_v1.this.metadata[0].name
+  }
+
+  data = {
+    MC_HOST_s3 = "https://${urlencode(local.aws_access_key_id)}:${urlencode(local.aws_secret_access_key)}@s3.${var.s3_region}.amazonaws.com:443"
+  }
+
+  type = "Opaque"
+}
