@@ -32,7 +32,7 @@ spec:
           level: "${local.selinux_level}"
       containers:
         - name: mc
-          image: chainguard/minio-client:latest
+          image: chainguard/minio-client:latest-dev
           command: ["sh", "-c"]
           args:
           - |
