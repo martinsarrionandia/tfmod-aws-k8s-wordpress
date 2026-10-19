@@ -27,11 +27,12 @@ spec:
         app.kubernetes.io/name: sync-uploads
     spec:
       securityContext:
+        runAsUser: 1001
         seLinuxOptions:
           level: "${local.selinux_level}"
       containers:
         - name: mc
-          image: minio/mc:latest
+          image: chainguard/minio-client:latest
           command: ["sh", "-c"]
           args:
           - |
