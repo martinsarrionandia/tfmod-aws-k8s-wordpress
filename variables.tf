@@ -72,6 +72,11 @@ variable "debug" {
   default = "false"
 }
 
+variable "pull_policy" {
+  type    = string
+  default = "Always"
+}
+
 variable "diagnostic" {
   type    = bool
   default = "false"

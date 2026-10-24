@@ -15,11 +15,6 @@ resource "helm_release" "wordpress" {
       value = "ClusterIP"
     },
     {
-      name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
-      value = yamlencode(local.fqdn)
-      type  = "string"
-    },
-    {
       name  = "service.annotations.external-dns\\.alpha\\.kubernetes\\.io/target"
       value = yamlencode(var.public_ip)
       type  = "string"
@@ -83,6 +78,10 @@ resource "helm_release" "wordpress" {
     {
       name  = "image.debug"
       value = var.debug
+    },
+    {
+      name  = "image.pullPolicy"
+      value = var.pull_policy
     },
     {
       name  = "diagnosticMode.enabled"
